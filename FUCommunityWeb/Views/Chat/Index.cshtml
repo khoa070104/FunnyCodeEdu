@@ -1,0 +1,198 @@
+@using System.Security.Claims
+@model List<Message>
+
+<div class="container mt-4 user-chat">
+    <div class="row">
+        <!-- Danh sách chat -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Select a conversation</h5>
+                </div>
+                <div class="list-group list-group-flush" id="chatList">
+                    @foreach (var chat in ViewBag.ChatList)
+                    {
+                        <a href="#" class="list-group-item list-group-item-action" 
+                           data-user-id="@chat.UserId"
+                           data-user-name="@chat.FullName"
+                           onclick="openChat('@chat.UserId', '@chat.FullName')">
+                            <div class="d-flex align-items-center">
+                                <img src="@chat.AvatarImage" class="rounded-circle" width="40" height="40">
+                                <div class="ms-3">
+                                    <h6 class="mb-0" style="word-break:break-all;">@chat.FullName</h6>
+                                    <small class="text-muted small-text">@chat.LastMessage</small>
+                                </div>
+                                @if (chat.UnreadCount > 0)
+                                {
+                                    <span class="badge bg-primary rounded-pill ms-auto">@chat.UnreadCount</span>
+                                }
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Khung chat -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0" id="currentChatName">Chat</h5>
+                </div>
+                <div class="card-body">
+                    <div class="chat-messages" id="chatMessages">
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="input-group">
+                        <input type="text" id="messageInput" class="form-control" 
+                               placeholder="Press Enter to send message..." disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let currentChatUserId = '';
+        let currentChatUserName = '';
+
+        $(document).ready(function() {
+            const initialChatUserId = '@ViewBag.InitialChatUserId';
+            if (initialChatUserId) {
+                const userElement = $(`[data-user-id="${initialChatUserId}"]`);
+                if (userElement.length) {
+                    const userName = userElement.data('user-name');
+                    openChat(initialChatUserId, userName);
+                }
+            }
+        });
+
+        function openChat(userId, userName) {
+            currentChatUserId = userId;
+            currentChatUserName = userName;
+            $('#currentChatName').text(userName);
+            $('#messageInput').prop('disabled', false);
+            $('button').prop('disabled', false);
+            loadMessages();
+        }
+
+        async function loadMessages() {
+            try {
+                const response = await fetch(`/Chat/GetMessages?userId=${currentChatUserId}`);
+                const messages = await response.json();
+                displayMessages(messages);
+            } catch (error) {
+                console.error('Error loading messages:', error);
+            }
+        }
+
+        function displayMessages(messages) {
+            const chatMessages = $('#chatMessages');
+            chatMessages.empty();
+            
+            messages.forEach(msg => {
+                const isOwn = msg.senderId === '@User.FindFirstValue(ClaimTypes.NameIdentifier)';
+                const messageHtml = `
+                    <div class="message ${isOwn ? 'own' : 'other'}">
+                        <img src="${msg.sender.avatarImage || '/images/default-avatar.png'}" class="avatar" 
+                             onerror="this.src='/images/default-avatar.png'">
+                        <div class="message-content">
+                            <div class="message-text">${msg.content}</div>
+                            <div class="message-time">${new Date(msg.createdDate).toLocaleString()}</div>
+                        </div>
+                    </div>
+                `;
+                chatMessages.append(messageHtml);
+            });
+            
+            chatMessages.scrollTop(chatMessages[0].scrollHeight);
+        }
+
+        $('#messageInput').on('keypress', function (e) {
+            if (e.which === 13 && !e.shiftKey) {  // Only trigger on Enter, not Shift+Enter
+                e.preventDefault();
+                sendMessage().then(() => {
+                    $(this).val(''); // Clear the input field after message is sent
+                });
+            }
+        });
+
+        async function sendMessage() {
+            const messageInput = $('#messageInput');
+            const message = messageInput.val().trim();
+
+            if (message && currentChatUserId) {
+                try {
+                    const response = await fetch('/Chat/SendMessage', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            receiverId: currentChatUserId,
+                            content: message
+                        })
+                    });
+
+                    if (response.ok) {
+                        await loadMessages(); // Refresh chat after sending message
+                        const chatMessages = $('#chatMessages');
+                        chatMessages.scrollTop(chatMessages[0].scrollHeight); // Scroll to the bottom
+                    }
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                }
+            }
+        }
+
+
+
+        // Auto refresh messages and unread count
+        setInterval(async () => {
+            if (currentChatUserId) {
+                await loadMessages();
+            }
+            await updateUnreadCount();
+        }, 5000);
+
+        // Update unread count
+        async function updateUnreadCount() {
+            try {
+                const response = await fetch('/Chat/GetUnreadCount');
+                const unreadCount = await response.json();
+                
+                // Update layout badge
+                const layoutBadge = $('#layoutMessageBadge');
+                if (unreadCount > 0) {
+                    layoutBadge.text(unreadCount).show();
+                } else {
+                    layoutBadge.hide();
+                }
+                
+                // Update chat list badges
+                const chatList = await fetch('/Chat/GetChatList');
+                const chatListData = await chatList.json();
+                
+                chatListData.forEach(chat => {
+                    const chatElement = $(`[data-user-id="${chat.userId}"]`);
+                    const badge = chatElement.find('.badge');
+                    
+                    if (chat.unreadCount > 0) {
+                        if (badge.length) {
+                            badge.text(chat.unreadCount);
+                        } else {
+                            chatElement.append(`<span class="badge bg-danger rounded-pill ms-auto">${chat.unreadCount}</span>`);
+                        }
+                    } else {
+                        badge.remove();
+                    }
+                });
+            } catch (error) {
+                console.error('Error updating unread count:', error);
+            }
+        }
+    </script>
+} 

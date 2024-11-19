@@ -1,0 +1,40 @@
+﻿@model UserVM
+
+<body>
+    <div class="container-fluid mt-4 profile">
+        <h1 class="title text-start">PROFILE</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                @Html.Partial("Sidebar", Model)
+            </div>
+            <div class="col-md-9 posthis">
+                <div class="card mb-4">
+                    <div class="card-header">Your Payment History</div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>UserName</th>
+                                    <th>Amount</th>
+                                    <th>BankCode</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in Model.Orders)
+                                {
+                                    <tr>
+                                        <td>@(order.User != null ? order.User.UserName : "Unknown User")</td>
+                                        <td>@order.Amount</td>
+                                        <td>@order.BankCode</td>
+                                        <td>@order.Status</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

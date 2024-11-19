@@ -1,0 +1,138 @@
+﻿@model SearchVM
+
+<body>
+    <div class="search-page min-vh-100">
+        <div class="container" id="search">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <!-- Search Form -->
+                    <div class="search-form p-4 shadow-sm rounded" style="background-color: #f9f9f9;">
+                        <h2 class="text-center mb-4" style="font-weight: bold;color:#20B486;">SEARCH PAGE</h2>
+
+                        <!-- Updated Search Form -->
+                        <form id="search-form" asp-controller="Home" asp-action="Search" method="get">
+                            <label class="form-label">Find what you're looking for</label>
+                            <div class="input-group mb-3">
+                                <input type="text" id="search-keyword" name="keyword" class="form-control" placeholder="Enter to search" />
+                                <button type="submit" class="btn-1"><i class="fas fa-search"></i></button>
+                            </div>
+                        </form>
+
+                        <!-- Tabs for search results -->
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="posts-tab" data-bs-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Posts</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="categories-tab" data-bs-toggle="tab" href="#categories" role="tab" aria-controls="categories" aria-selected="false">Categories</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="courses-tab" data-bs-toggle="tab" href="#courses" role="tab" aria-controls="courses" aria-selected="false">Courses</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <!-- Posts Tab -->
+                            <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                                @if (Model?.Posts != null && Model.Posts.Any())
+                                {
+                                    <ul>
+                                        @foreach (var post in Model.Posts)
+                                        {
+                                            <li class="search-item">
+                                                <a href="/Forum/PostDetail?postID=@post.PostID" class="search-link">
+                                                    <h4 class="search-title">@Html.Raw(System.Net.WebUtility.HtmlDecode(post.Title))</h4>
+                                                    <p class="search-content">@Html.Raw(System.Net.WebUtility.HtmlDecode(post.Content))</p>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <p class="text-center">No posts found for your search.</p>
+                                }
+                            </div>
+
+                            <!-- Categories Tab -->
+                            <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="categories-tab">
+                                @if (Model?.Categories != null && Model.Categories.Any())
+                                {
+                                    <ul>
+                                        @foreach (var category in Model.Categories)
+                                        {
+                                            <li class="search-item">
+                                                <a href="/Forum/Post?CategoryName=@category.CategoryName&CategoryID=@category.CategoryID" class="search-link">
+                                                    <h4 class="search-title">@Html.Raw(System.Net.WebUtility.HtmlDecode(category.CategoryName))</h4>
+                                                    <p class="search-content">@Html.Raw(System.Net.WebUtility.HtmlDecode(category.Description))</p>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <p class="text-center">No categories found for your search.</p>
+                                }
+                            </div>
+
+                            <!-- Courses Tab -->
+                            <div class="tab-pane fade" id="courses" role="tabpanel" aria-labelledby="courses-tab">
+                                @if (Model?.Courses != null && Model.Courses.Any())
+                                {
+                                    <ul>
+                                        @foreach (var course in Model.Courses)
+                                        {
+                                            <li class="search-item">
+                                                <a href="/Course/Detail/@course.CourseID" class="search-link">
+                                                    <h4 class="search-title">@Html.Raw(System.Net.WebUtility.HtmlDecode(course.Title))</h4>
+                                                    <p class="search-content">@Html.Raw(System.Net.WebUtility.HtmlDecode(course.Description))</p>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <p class="text-center">No courses found for your search.</p>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const keyword = urlParams.get('keyword');
+
+            if (keyword) {
+                document.getElementById('search-keyword').value = keyword;
+
+                document.querySelectorAll('.search-title').forEach((element) => {
+                    const originalTitle = element.innerHTML;
+                    element.innerHTML = boldMe(originalTitle, keyword);
+                });
+
+                document.querySelectorAll('.search-content').forEach((element) => {
+                    const decoder = document.createElement('textarea');
+                    decoder.innerHTML = element.innerHTML;
+                    const decodedContent = decoder.value;
+
+                    element.innerHTML = boldMe(decodedContent, keyword);
+                });
+            }
+        });
+
+        function boldMe(text, keyword) {
+            const regex = new RegExp(`(${keyword})`, 'gi');
+            return text.replace(regex, '<b>$1</b>');
+        }
+    </script>
+}

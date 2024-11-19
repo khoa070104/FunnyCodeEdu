@@ -1,0 +1,263 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] Fu Community</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FUCommunityWeb.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/css/Style.css">
+    <link rel="stylesheet" href="/js/site.js">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <!-- Brand Logo -->
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <img src="/img/Logo.png" alt="Logo" class="logo-header">
+                </a>
+
+                <!-- Navbar Toggler for Responsive -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Navbar Content -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <div class="d-flex flex-column flex-lg-row align-items-lg-center w-100">
+
+                        <!-- Search Container -->
+                        <div class="search-container me-lg-3 mb-3 mb-lg-0">
+                            <form asp-action="Search" asp-controller="Home" method="get">
+                                <input type="text" id="searchInput" name="keyword" class="form-control" placeholder="Want to search something?"
+                                       style="width: 100%; height: 55px; padding-left: 20px; padding-right: 110px; margin-right: 50px;" required>
+                                <button class="btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+                            </form>
+                        </div>
+
+                        <!-- Navbar Links -->
+                        <ul class="navbar-mid navbar-nav flex-grow-1 justify-content-center">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Forum" asp-action="Index">Forum</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="ViewUser">Find User</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="MentorHall">Mentor Hall</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Course" asp-action="Index">All Course</a>
+                            </li>
+                            
+                        </ul>
+
+                        <!-- Right Aligned Buttons -->
+                        <div class="d-flex align-items-center ms-lg-auto btn-right notify">
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item dropdown" style="list-style: none;">
+                                    <a style="color:#20B486;display: flex;" class="nav-link text-end" asp-controller="Chat" asp-action="Index">
+                                        <i class="fas fa-comments me-2"></i>
+                                        <span id="layoutMessageBadge" class="badge bg-danger" style="display: none;"></span>
+                                    </a>
+                                </li>
+
+                            }
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item dropdown" style="list-style: none;">
+                                    <a style="color:#20B486;" class="nav-link dropdown-toggle position-relative text-end" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-bell"></i>
+                                        <span class="badge bg-danger notification-count" style="display:none;">0</span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end notification-menu" aria-labelledby="notificationDropdown" style="width: 300px; max-height: 400px; overflow-y: auto;">
+                                        <div class="notifications-container">
+                                            
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            @await Html.PartialAsync("_LoginPartial")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div>
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="column">
+                <img src="/img/kn2.png" style="width: 150px;" alt="LOGO">
+                <h3>FUNNY CODE</h3>
+                <p>Top learning experiences that create more talent in the world.</p>
+            </div>
+            <div class="">
+                <h4>Contact Us</h4>
+                <ul class="footer-icons">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i> Ngu Hanh Son, Da Nang
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i> +84 886823142
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i> funnycode@gmail.com
+                    </li>
+                </ul>
+
+            </div>
+            <div class="column">
+                <h4>Useful Links</h4>
+                <ul>
+                    <li><a class="footer-link" asp-controller="Forum" asp-action="Index">Forum</a></li>
+                    <li><a class="footer-link" asp-controller="Home" asp-action="ViewUser">Find User</a></li>
+                    <li><a class="footer-link" asp-controller="Home" asp-action="Search">Search</a></li>
+                    <li><a class="footer-link" asp-controller="Home" asp-action="MentorHall">Mentor Hall</a></li>
+                </ul>
+            </div>
+            <div class="column">
+                <h4>Account</h4>
+                <ul>
+                    <li><a href="@Url.Action("ViewUserProfile", "Home", new { userId = UserManager.GetUserId(User) })">My Profile</a></li>
+                    <li><a asp-controller="Profile" asp-action="Index">Settings</a></li>
+                    <li><a asp-area="Identity" asp-page="/Account/Manage/Index">Authenticator</a></li>
+                    <li><a asp-controller="Payment" asp-action="Pay">Deposit</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                @* <img src="/img/kn.svg" style="width:150px;" alt="Send Heart" /> *@
+                <p>© 2024 FUNNY CODE. All rights reserved.</p>
+                <ul class="list-unstyled d-flex justify-content-center">
+                    <li class="me-3">
+                        <a href="https://github.com/khoa070104/FuCommunityWebApplication" class="social-icon" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </li>
+                    <li class="me-3">
+                        <a href="https://www.facebook.com/groups/213350501681569" class="social-icon" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li class="me-3">
+                        <a href="https://www.youtube.com/@@FUNNYCODE" class="social-icon" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <button class="back-to-top"><i class="fas fa-chevron-up"></i></button>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchInput');
+            const exploreBtn = document.getElementById('exploreBtn');
+
+            searchInput.addEventListener('focus', function () {
+                exploreBtn.textContent = 'Search';
+            });
+
+            searchInput.addEventListener('blur', function () {
+                if (searchInput.value === '') {
+                    exploreBtn.textContent = 'Explore';
+                }
+            });
+
+            const backToTopButton = document.querySelector('.back-to-top');
+
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 300) {
+                    backToTopButton.style.display = 'block';
+                } else {
+                    backToTopButton.style.display = 'none';
+                }
+            });
+
+            backToTopButton.addEventListener('click', function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js"></script>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="~/js/notification.js" asp-append-version="true"></script>
+        <script>
+            $(document).ready(function() {
+                console.log("Layout ready, initializing notifications..."); // Thêm log để debug
+                if (typeof loadNotifications === 'function') {
+                    loadNotifications();
+                    setInterval(loadNotifications, 10000);
+                } else {
+                    console.error("loadNotifications function not found!"); // Thêm log để debug
+                }
+            });
+        </script>
+    }
+
+    @section Scripts {
+        <script>
+            // Update unread message count every 30 seconds
+            async function updateLayoutUnreadCount() {
+                try {
+                    const response = await fetch('/Chat/GetUnreadCount');
+                    const unreadCount = await response.json();
+                    const badge = $('#layoutMessageBadge');
+                    
+                    if (unreadCount > 0) {
+                        badge.text(unreadCount).show();
+                    } else {
+                        badge.hide();
+                    }
+                } catch (error) {
+                    console.error('Error updating unread count:', error);
+                }
+            }
+
+            // Initial update
+            updateLayoutUnreadCount();
+
+            // Update every 30 seconds
+            setInterval(updateLayoutUnreadCount, 30000);
+        </script>
+    }
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

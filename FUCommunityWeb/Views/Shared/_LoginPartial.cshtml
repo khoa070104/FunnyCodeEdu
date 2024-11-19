@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+    <div class="d-flex align-items-center ms-lg-auto">
+        <div class="dropdown ms-3 profile-personal">
+            <div class="dropdown">
+                <button class="dropbtn d-flex align-items-center">
+                    <img src="~/img/Logo_FunnyCode.jpg" alt="Profile Avatar" class="profile-avatar">
+                    <span class="ms-2"> Hi, @UserManager.GetUserName(User)</span>
+                    <i id="dropdownIcon" class="fa-solid fa-circle-chevron-down ms-2"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="@Url.Action("ViewUserProfile", "Home", new { userId = UserManager.GetUserId(User) })">
+                        <i class="fas fa-user"></i> My Profile
+                    </a>
+                    <a href="/Profile/Index">
+                        <i class="fas fa-cog"></i> Setting
+                    </a>
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <i class="fas fa-key"></i> Authenticator
+                    </a>
+                    <a asp-controller="Payment" asp-action="Pay">
+                        <i class="fas fa-wallet"></i> Deposit
+                    </a>
+                    <a asp-controller="Home" asp-action="ContactUs">
+                        <i class="fas fa-envelope"></i> Contact Us
+                    </a>
+                    <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <i class="fas fa-sign-out-alt"></i> Log out
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <a class="btn-signin" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    <a class="btn ms-3" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+
+}
+

@@ -1,0 +1,108 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<body> 
+    <div class="sign-in">
+        <div class="container d-flex">
+            <div class="background-image">
+            <div class="row w-100">
+                <div class="col-md-8 d-none d-md-block"></div>
+                <div class="col-md-4">
+
+                    <div class="login-container p-4">
+                        <h2 class="text-white">Log In</h2>
+                        <p class="text-white">Welcome to FUNNYCODE!</p>
+                        <form id="account" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-light" role="alert"></div>
+                            <div class="mb-3">
+                                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Enter your email" value="@Model.Input?.Email" />
+                                <span asp-validation-for="Input.Email" class="text-light"></span>
+                            </div>
+                            <div class="mb-3">
+                                <input asp-for="Input.Password" class="form-control" autocomplete="off" aria-required="true" placeholder="Enter your password" value="" />
+                                <span asp-validation-for="Input.Password" class="text-light"></span>
+                            </div>
+                            <div class="form-check mb-3 text-white">
+                                <input class="form-check-input" asp-for="Input.RememberMe" id="rememberMe" />
+                                <label class="form-check-label" for="rememberMe">
+                                        <span class="remember-text">Remember me</span>
+                                </label>
+                                    <a asp-page="/Account/ForgotPassword" class="float-end forgot-text">Forgot password?</a>
+                            </div>
+                                <button id="login-submit" type="submit" class="btn-1 w-100">LOG IN</button>
+                        </form>
+                        <hr class="text-white">
+                        <p class="text-center text-white">Or continue with</p>
+                        <div class="d-flex justify-content-between">
+                            
+                            @{
+                                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                                {
+                                    <div>
+                                        <p>
+                                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                                article
+                                                about setting up this ASP.NET application to support logging in via external services
+                                            </a>.
+                                        </p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <form id="external-account" class="w-100" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                        
+                                                @foreach (var provider in Model.ExternalLogins!)
+                                                {
+                                                <button type="submit" class="btn btn-outline-light w-100" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                                    <p style="margin-bottom: 0px;">
+                                                        <i class="fab fa-google"></i>    
+                                                        @provider.DisplayName
+                                                    </p>
+                                                </button>
+                                                }
+                                    </form>
+                                }
+                            }
+                        </div>
+                        <p class="text-center text-white mt-3 custom-link">
+                            By registering you agree with our <a href="#" style="text-decoration:none;">Terms and Conditions</a>
+                        </p>
+                        <p class="text-center text-white">
+                                Don't have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="register-link fw-bold">Register</a> Here
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <!--div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Reset Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Enter your email address</label>
+                            <input type="email" class="form-control" id="email" placeholder="Email" required>
+                        </div>
+                        <button type="submit" class="btn w-100">Send Reset Link</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </!--div-->
+</body> 
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

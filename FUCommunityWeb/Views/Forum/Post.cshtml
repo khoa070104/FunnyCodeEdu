@@ -1,0 +1,693 @@
+﻿@using System.Security.Claims
+@model FuCommunityWebModels.ViewModels.PostVM
+@using FuCommunityWebUtility
+
+<style>
+    .post a {
+        text-decoration: none; /* Remove underline from links */
+        color: inherit; /* Inherit color from the parent element */
+    }
+
+        .post a:hover {
+            color: inherit; /* Keep color on hover */
+        }
+
+    .pagination {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .pagination .page-button {
+            margin: 0 5px;
+            padding: 10px 15px;
+            border: 1px solid #007bff; /* Màu viền */
+            border-radius: 5px;
+            background-color: #fff; /* Màu nền của nút */
+            color: #007bff; /* Màu chữ của nút */
+            cursor: pointer;
+        }
+
+            .pagination .page-button:hover {
+                background-color: #007bff; /* Thay đổi màu nền khi hover */
+                color: white; /* Thay đổi màu chữ khi hover */
+            }
+
+            .pagination .page-button:disabled,
+            .pagination .page-button.active {
+                background-color: #e9ecef; /* Màu nền cho nút hiện tại/vô hiệu hóa */
+                color: #6c757d; /* Màu chữ cho nút hiện tại/vô hiệu hóa */
+                border: 1px solid #dee2e6; /* Màu viền cho nút vô hiệu hóa */
+                cursor: not-allowed; /* Thay đổi con trỏ khi hover trên nút vô hiệu hóa */
+            }
+
+    .custom-modal-width {
+        max-width: 80%; /* Điều chỉnh theo tỷ lệ mong muốn, ví dụ 80% */
+    }
+
+    .cke_notification {
+        display: none !important; /* Ẩn tất cả thông báo CKEditor */
+    }
+
+.table {
+    background-color: #F2FFFB; /* Soft minty background */
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table td, .table th {
+    padding: 12px 20px;
+    color: #333333;
+    text-align: left;
+    font-size: 0.95em;
+    vertical-align: middle;
+    border: 1px solid #E0E0E0; /* Add border to td and th */
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 5px;
+    border: 2px solid #ddd;
+}
+
+.type-1 {
+    background-color: #20B486; /* Teal background for type */
+    color: #ffffff;
+    padding: 5px 12px;
+    border-radius: 10px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.type-2 {
+    background-color: #007bff; /* Blue background for type */
+    color: #ffffff;
+    padding: 5px 12px;
+    border-radius: 10px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.title {
+    color: #20B486; /* Teal color for title */
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.username {
+    color: #20B486; /* Vibrant teal for username */
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.date, .stats, .settings {
+    color: #808080;
+    font-size: 0.85em;
+}
+
+.settings {
+    width: 100px;
+}
+
+.settings a {
+    color: #20B486;
+    margin-right: 12px;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: color 0.3s ease;
+}
+
+.settings a:hover {
+    color: #16a085; /* Darker teal for hover effect */
+}
+
+.table tbody tr {
+    cursor: pointer;
+    background-color: #F2FFFB; /* Keeping the same minty background */
+    border-bottom: 1px solid #E0E0E0; /* Add border to the bottom of each row */
+}
+
+.table tbody tr:hover {
+    background-color: #D0F4E6; /* Pastel green on hover */
+}
+
+.table tbody tr:active {
+    background-color: #A5E5D6; /* Slightly darker minty green on click */
+}
+
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table td, .table th {
+    border: none; /* Remove borders between td and th */
+}
+
+.table td:last-child, .table th:last-child {
+    border-right: none;
+}
+
+
+</style>
+
+<div class="container post min-vh-100">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li><a asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i> Home</a></li>
+            <li><a asp-controller="Forum" asp-action="Index">Forum</a></li>
+            <li class="active">@Model.CategoryVM.CategoryName</li>
+        </ol>
+    </nav>
+
+    <!-- Topic Title -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-6" style="font-weight: 500;">Topic: <span class="text-success">@Model.CategoryVM.CategoryName</span></h1>
+        <div>
+            @if (ViewBag.IsMentor )
+            {
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#createPostModal"
+                        data-post-type="1">
+                    Create New Blog
+                </button>
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#createPostModal"
+                        data-post-type="2">
+                    Create New Question
+                </button>
+            }
+            else if (ViewBag.IsStudent)
+            {
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#createPostModal"
+                        data-post-type="2">
+                    Create New Question
+                </button>
+            }
+            else if(ViewBag.IsAdmin)
+            {
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#createPostModal"
+                        data-post-type="1">
+                    Create New Blog
+                </button>
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#createPostModal"
+                        data-post-type="2">
+                    Create New Question
+                </button>
+            }
+            else
+            {
+                <a class="btn-2" href="/Identity/Account/Login">Login to Post</a>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <input type="text" id="searchString" placeholder="Search any blog or question here..."
+                   style="width: 300px; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 15px;" />
+        </div>
+    </div>
+    <div id="postList"></div> <!-- Show postlist -->
+    <div id="pagination" class="pagination"></div><!-- Show paging -->
+</div>
+<!--Add Modal -->
+<div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog custom-modal-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createPostModalLabel">New Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create" asp-controller="Forum" enctype="multipart/form-data" id="createPostForm">
+                    <div class="mb-3">
+                        <label for="postTitle" class="form-label">Title</label>
+                        <input asp-for="@Model.CreatePostVM.Title" type="text" class="form-control" id="postTitle" placeholder="Enter post title" required>
+                        <div class="invalid-feedback">
+                            Title not allow empty
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tag" class="form-label">Tag</label>
+                        <input asp-for="@Model.CreatePostVM.Tag" type="text" class="form-control" id="postTag" placeholder="What's tag?" required>
+                        <div class="invalid-feedback">
+                            Tag not allow empty
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="postContent" class="form-label">Content</label>
+                        <textarea asp-for="@Model.CreatePostVM.Content" class="form-control" id="editor" rows="3" required></textarea>
+                        <div class="invalid-feedback">
+                            Content not allow empty
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Type</label>
+                        <div>
+                            <input asp-for="@Model.CreatePostVM.Type" type="radio" value="1" name="CreatePostVM.Type" id="blogOption" /> Blog
+                            <input asp-for="@Model.CreatePostVM.Type" type="radio" value="2" name="CreatePostVM.Type" id="questionOption" /> Question
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <input asp-for="@Model.CreatePostVM.PostImageFile" type="file" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="documentFile" class="form-label">Upload Document</label>
+                        <input asp-for="@Model.CreatePostVM.DocumentFile" type="file" class="form-control" id="documentFile" />
+                    </div>
+
+                    <input type="hidden" asp-for="@Model.CreatePostVM.CategoryID" value="@Model.CategoryVM.CategoryID" />
+                    <input type="hidden" asp-for="@Model.CategoryVM.CategoryName" value="@Model.CategoryVM.CategoryName" />
+                    <input type="hidden" asp-for="@Model.CategoryVM.CategoryID" value="@Model.CategoryVM.CategoryID" />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn" id="submitBtn">Create</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog custom-modal-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Forum" asp-action="EditPost" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="editTitle" class="form-label">Title</label>
+                        <input asp-for="Post.Title" type="text" class="form-control" id="editTitle" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editContent" class="form-label">Content</label>
+                        <textarea asp-for="Post.Content" class="form-control" id="editor2" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTag" class="form-label">Tag</label>
+                        <input asp-for="Post.Tag" class="form-control" id="editTag" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editImg" class="form-label">Your Image Post</label>
+                        <input asp-for="CreatePostVM.PostImageFile" type="file" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDocumentFile" class="form-label">Upload Document</label>
+                        <input asp-for="CreatePostVM.DocumentFile" type="file" class="form-control" id="editDocumentFile" />
+                        <div id="currentDocument">
+                            @if (Model.Post.DocumentID.HasValue)
+                            {
+                                var document = Model.Post.Document;
+                                if (document != null)
+                                {
+                                    <p>Current Document: <a href="@document.FileUrl" download>@document.Name</a></p>
+                                }
+                            }
+                            else
+                            {
+                                <p>No document uploaded.</p>
+                            }
+                        </div>
+                    </div>
+
+                    <input type="hidden" asp-for="@Model.Post.PostID" value="" />
+                    <input type="hidden" asp-for="@Model.CategoryVM.CategoryID" value="" />
+                    <input type="hidden" asp-for="@Model.CategoryVM.CategoryName" value="" />
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this?
+            </div>
+            <form asp-controller="Forum" asp-action="DeletePost">
+                <input type="hidden" asp-for="@Model.Post.PostID" value="" />
+                <input type="hidden" asp-for="@Model.CategoryVM.CategoryID" value="" />
+                <input type="hidden" asp-for="@Model.CategoryVM.CategoryName" value="" />
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+        $(document).on("click", ".fa-edit", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryID = urlParams.get('CategoryID');
+            const categoryName = urlParams.get('CategoryName');
+
+            const postID = $(this).closest("tr").find("a").attr("href").split("=")[1];
+            const post = allPosts.find(p => p.postID == postID);
+
+            if (!post) {
+                console.error("Post not found!");
+                return;
+            }
+
+            $("#editTitle").val(post.title);
+            $("#editTag").val(post.tag);
+            $("#editPostID").val(post.postID);
+
+            const decodeHTML = function (html) {
+                var txt = document.createElement("textarea");
+                txt.innerHTML = html;
+                return txt.value;
+            };
+
+            const decodedContent = decodeHTML(post.content);
+            $("#editor2").val(decodedContent);
+
+            // Xóa thẻ div không mong muốn trước khi khởi tạo CKEditor
+            function cleanUpContent(content) {
+                return content.replace(/<div[^>]*id=["']mttContainer["'][^>]*>.*?<\/div>/g, '');
+            }
+
+            // Làm sạch nội dung và khởi tạo CKEditor
+            const cleanedContent = cleanUpContent(decodedContent);
+            if (CKEDITOR.instances['editor2']) {
+                CKEDITOR.instances['editor2'].destroy(true);
+            }
+            CKEDITOR.replace('editor2');
+            CKEDITOR.instances['editor2'].setData(cleanedContent);
+
+            $("input[name='CategoryVM.CategoryID']").val(categoryID);
+            $("input[name='CategoryVM.CategoryName']").val(categoryName);
+            $("input[name='Post.PostID']").val(postID);
+
+            if (post.document && post.document.fileUrl) {
+                $("#currentDocument").html(`<p>Current Document: <a href="${post.document.fileUrl}" download>${post.document.name}</a></p>`);
+            } else {
+                $("#currentDocument").html('<p>No document uploaded.</p>');
+            }
+
+            $("#editModal").modal("show");
+        });
+    </script>
+    <script>
+        $(document).on("click", ".fa-trash", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryID = urlParams.get('CategoryID');
+            const categoryName = urlParams.get('CategoryName');
+
+            const postID = $(this).closest("tr").find("a").attr("href").split("=")[1];
+
+            $("input[name='CategoryVM.CategoryID']").val(categoryID);
+            $("input[name='CategoryVM.CategoryName']").val(categoryName);
+            $("input[name='Post.PostID']").val(postID);
+
+            $("#deleteModal").modal("show");
+        });
+    </script>
+    <script>
+        let allPosts = [];
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryID = urlParams.get('CategoryID');
+
+        $(document).ready(function () {
+            function loadPosts(page = 1, pageSize = 5) {
+                if (!categoryID) {
+                    console.error("Invalid category ID.");
+                    return;
+                }
+
+                $.ajax({
+                    url: "/Forum/GetPosts",
+                    type: "GET",
+                    data: {
+                        page: page,
+                        pageSize: pageSize,
+                        categoryID: categoryID
+                    },
+                    success: function (response) {
+                        allPosts = response.posts;
+                        displayPosts(allPosts);
+                        buildPagination(response.totalItems, pageSize, page);
+                    },
+                    error: function (error) {
+                        console.log("Error fetching posts:", error);
+                    }
+                });
+            }
+
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${hours}:${minutes} ${day}/${month}/${year}`;
+            }
+
+            function displayPosts(posts) {
+                $("#postList").empty();
+
+                let tableContent = `
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <table class="table">
+                                                    
+                                                    <tbody>
+                                    `;
+
+                $.each(posts, function (index, post) {
+                    const formattedDate = formatDate(post.createdDate);
+                    const currentUserId = '@User.FindFirst(ClaimTypes.NameIdentifier)?.Value';
+
+                    tableContent += `
+
+                                            <tr>
+                                            <td class="d-flex align-items-center">
+                                                <img src="${post.userAvatar}" alt="Avatar" class="profile-pic mr-3">
+                                                <div>
+                                                    <span class="${post.type === 'Blog' ? 'type-1' : 'type-2'}">${post.type}</span>
+                                                    <a class="title" href="/Forum/PostDetail?postId=${post.postID}">${post.title}</a>
+                                                    <div class="mt-2">
+                                                        <span class="date">${formattedDate}</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+        `;
+
+                    if (post.userId === currentUserId) {
+                        tableContent += `
+                                    <td class="settings text-right">
+                                        <i class="fas fa-edit table-settings me-2 edit" data-bs-toggle="modal" data-bs-target="#editModal"></i>
+                                        <i class="fas fa-trash table-settings delete" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
+                                    </td>
+                                        
+                                    `;
+                    }
+                    else{
+                        tableContent += `
+                                    <td class="settings text-right">
+                                    </td>
+                                        
+                                    `;
+                    }
+
+                    tableContent += `
+                                    </td>
+                                </tr>
+                            `;
+                });
+
+                tableContent += `
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    `;
+
+                $("#postList").append(tableContent);
+            }
+
+            function buildPagination(totalItems, pageSize, currentPage) {
+                $("#pagination").empty();
+                const totalPages = Math.ceil(totalItems / pageSize);
+
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i === currentPage) {
+                        $("#pagination").append(`<button class="page-button" data-page="${i}" disabled>${i}</button>`);
+                    } else {
+                        $("#pagination").append(`<button class="page-button" data-page="${i}">${i}</button>`);
+                    }
+                }
+            }
+
+            $("#searchString").on("input", function () {
+                const searchString = $(this).val().toLowerCase().trim();
+                const keywords = searchString.split(/\s+/).filter(Boolean);
+
+                const filteredPosts = allPosts.filter(post => {
+                    const titleMatches = keywords.every(keyword => post.title.toLowerCase().includes(keyword));
+                    const contentMatches = keywords.every(keyword => post.content.toLowerCase().includes(keyword));
+                    return titleMatches || contentMatches;
+                });
+                displayPosts(filteredPosts);
+            });
+
+            $(document).on("click", ".page-button", function () {
+                const page = $(this).data("page");
+                loadPosts(page);
+            });
+
+            loadPosts();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#createPostForm').on('submit', function (e) {
+                e.preventDefault();
+
+                // Lấy các giá trị
+                var title = $('#postTitle').val().trim();
+                var tag = $('#postTag').val().trim();
+                var content = CKEDITOR.instances['editor'].getData().trim();
+
+                // Kiểm tra từng trường
+                var errors = [];
+
+                if (!title) {
+                    errors.push('Title không được để trống');
+                }
+
+                if (!tag) {
+                    errors.push('Tag không được để trống');
+                }
+
+                if (!content) {
+                    errors.push('Content không được để trống');
+                }
+
+                // Nếu có lỗi
+                if (errors.length > 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        html: errors.join('<br>'),
+                        confirmButtonText: 'OK'
+                    });
+                    return false;
+                }
+
+                // Nếu không có lỗi thì làm sạch nội dung
+                var cleanedContent = cleanUpContent(content);
+                CKEDITOR.instances['editor'].setData(cleanedContent);
+
+                // Submit form
+                this.submit();
+            });
+
+            // Khởi tạo CKEditor
+            $('#createPostModal').on('shown.bs.modal', function () {
+                if (!CKEDITOR.instances['editor']) {
+                    CKEDITOR.replace('editor');
+                }
+                // Reset form khi mở modal
+                $('#createPostForm')[0].reset();
+                if (CKEDITOR.instances['editor']) {
+                    CKEDITOR.instances['editor'].setData('');
+                }
+            });
+
+            $('#createPostModal').on('hidden.bs.modal', function () {
+                if (CKEDITOR.instances['editor']) {
+                    CKEDITOR.instances['editor'].destroy(true);
+                }
+                // Reset form validation
+                $('#createPostForm').removeClass('was-validated');
+            });
+
+            // Gọi hàm xóa thẻ div không mong muốn
+            function cleanUpContent(content) {
+                // Sử dụng regex để xóa tất cả các thẻ div với id="mttContainer"
+                return content.replace(/<div[^>]*id=["']mttContainer["'][^>]*>.*?<\/div>/g, '');
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const createPostModal = document.getElementById('createPostModal');
+
+            createPostModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const postType = button.getAttribute('data-post-type');
+
+                const blogOption = document.getElementById('blogOption');
+                const questionOption = document.getElementById('questionOption');
+
+                @if (ViewBag.IsStudent)
+                {
+                    <text>
+                    blogOption.disabled = true;
+                    questionOption.checked = true;
+                    </text>
+                }
+                else
+                {
+                    <text>
+                    if (postType === "1") {
+                        blogOption.checked = true;
+                        questionOption.disabled = true;
+                    } else if (postType === "2") {
+                        questionOption.checked = true;
+                        blogOption.disabled = true;
+                    }
+                    </text>
+                }
+            });
+
+            createPostModal.addEventListener('hidden.bs.modal', function () {
+                @if (!ViewBag.IsStudent)
+                {
+                    <text>
+                    document.getElementById('blogOption').disabled = false;
+                    document.getElementById('questionOption').disabled = false;
+                    </text>
+                }
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+}

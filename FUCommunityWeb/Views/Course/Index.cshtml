@@ -1,0 +1,710 @@
+﻿@model FuCommunityWebModels.ViewModels.CourseVM
+
+@using System.Security.Claims
+
+@{
+    var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+}
+<style>
+    .course-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%; /* Đảm bảo chiều cao đầy đủ */
+    }
+
+        .course-card .course-info {
+            flex-grow: 1; /* Chiếm không gian còn lại để đẩy card-footer xuống dưới */
+        }
+
+        .course-card .card-footer {
+            margin-top: auto;
+            background: white;
+        }
+
+</style>
+<body>
+    <div class="course-container min-vh-100">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home/index"><i class="fa fa-home"></i> Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Course</li>
+                </ol>
+            </nav>
+
+            <h1 class="title"><span>All</span> Courses</h1>
+
+            @if (Model.IsMentor)
+            {
+                <div class="text-end mb-3">
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#createCourseModal">
+                        Create New Course
+                    </button>
+                </div>
+            }
+
+            <form method="get" action="@Url.Action("Index", "Course")">
+                <div class="d-flex flex-wrap justify-content-center gap-2 my-3">
+
+                    <div class="selection">
+                        <label class="label" for="semester">Semester:</label>
+                        <select id="semester" name="semester" class="form-select" onchange="this.form.submit()">
+                            <option value="">All Semesters</option>
+                            @for (int i = 1; i <= 9; i++)
+                            {
+                                bool isSelected = (Model.SelectedSemester == i.ToString());
+
+                                if (isSelected)
+                                {
+                                    <option value="@i" selected>Semester @i</option>
+                                }
+                                else
+                                {
+                                    <option value="@i">Semester @i</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="selection">
+                        <label class="label" for="category">Category:</label>
+                        <select id="category" name="category" class="form-select" onchange="this.form.submit()">
+                            <option value="">All Categories</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                bool isSelected = (Model.SelectedCategory == category.CategoryID.ToString());
+
+                                if (isSelected)
+                                {
+                                    <option value="@category.CategoryID" selected>@category.CategoryName</option>
+                                }
+                                else
+                                {
+                                    <option value="@category.CategoryID">@category.CategoryName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Subject Code Dropdown using AllSubjectCodes -->
+                    <div class="selection">
+                        <label class="label" for="subject-code">Subject Code:</label>
+                        <select id="subject-code" name="subjectCode" class="form-select" onchange="this.form.submit()">
+                            <option value="">All Subjects</option>
+                            @foreach (var subjectCode in Model.AllSubjectCodes)
+                            {
+                                bool isSelected = (Model.SelectedSubjectCode == subjectCode);
+
+                                if (isSelected)
+                                {
+                                    <option value="@subjectCode" selected>@subjectCode</option>
+                                }
+                                else
+                                {
+                                    <option value="@subjectCode">@subjectCode</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="selection">
+                        <label class="label" for="rate">Rate:</label>
+                        <select id="rate" name="rate" class="form-select" onchange="this.form.submit()">
+                            <option value="">All Ratings</option>
+                            @if (Model.SelectedRate == "4")
+                            {
+                                <option value="4" selected>≥ 4</option>
+                            }
+                            else
+                            {
+                                <option value="4">≥ 4</option>
+                            }
+
+                            @if (Model.SelectedRate == "3")
+                            {
+                                <option value="3" selected>≥ 3</option>
+                            }
+                            else
+                            {
+                                <option value="3">≥ 3</option>
+                            }
+
+                            @if (Model.SelectedRate == "2")
+                            {
+                                <option value="2" selected>≥ 2</option>
+                            }
+                            else
+                            {
+                                <option value="2">≥ 2</option>
+                            }
+
+                            @if (Model.SelectedRate == "1")
+                            {
+                                <option value="1" selected>≥ 1</option>
+                            }
+                            else
+                            {
+                                <option value="1">≥ 1</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="selection">
+                        <label class="label" for="cost">Cost:</label>
+                        <select id="cost" name="minPrice" class="form-select" onchange="this.form.submit()">
+                            <option value="">All Prices</option>
+                            @if (Model.SelectedMinPrice == "500")
+                            {
+                                <option value="500" selected>&lt;500 points</option>
+                            }
+                            else
+                            {
+                                <option value="500">&lt;500 points</option>
+                            }
+                            @if (Model.SelectedMinPrice == "1000")
+                            {
+                                <option value="1000" selected>&lt;1000 points</option>
+                            }
+                            else
+                            {
+                                <option value="1000">&lt;1000 points</option>
+                            }
+                            @if (Model.SelectedMinPrice == "2000")
+                            {
+                                <option value="2000" selected>&lt;2000 points</option>
+                            }
+                            else
+                            {
+                                <option value="2000">&lt;2000 points</option>
+                            }
+                        </select>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="course-section">
+            <div class="row">
+                @foreach (var course in Model.Courses)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="course-card" onclick="window.location='@Url.Action("Detail", "Course", new { id = course.CourseID })';" style="cursor: pointer;" data-semester="@course.Semester" data-category-id="@course.CategoryID"
+                             data-document-name="@course.Document?.Name" data-document-url="@course.Document?.FileUrl">
+                            <div class="category">
+                                <span class="badge">@course.Category.CategoryName</span>
+                            </div>
+                             <div class="course-image">
+                                <a href="@Url.Action("Detail", "Course", new { id = course.CourseID })">
+                                    <img style="width:200px;height:200px;" src="@course.CourseImage" alt="Course Image" class="img-fluid" />
+                                </a>
+                            </div>
+                            <div class="course-info">
+
+                                <h2 class="text-center" style="font-style:italic; font-weight:bold; color:#20B486;">
+                                    @course.Title
+                                </h2>
+                                <p>@course.Description</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="rating text-center">
+                                    <span>@(Model.AverageRatings.ContainsKey(course.CourseID) ? Model.AverageRatings[course.CourseID].ToString("0.0") : "0.0")</span>
+                                    <span class="stars">
+                                        @for (int i = 0; i < 5; i++)
+                                        {
+                                            if (i < (Model.AverageRatings.ContainsKey(course.CourseID) ? (int)Math.Round(Model.AverageRatings[course.CourseID]) : 0))
+                                            {
+                                                <i class="fas fa-star" style="color: gold;"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa-regular fa-star"></i>
+                                            }
+                                        }
+                                    </span>
+                                    <span>(@(Model.ReviewCounts.ContainsKey(course.CourseID) ? Model.ReviewCounts[course.CourseID] : 0))</span>
+                                </div>
+                                <div class="price text-center mb-3">
+                                    <div>
+                                        @* <span class="old-price text-muted">500 points</span> *@
+                                        <span class="new-price fw-bold">@course.Price points</span>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    @if (currentUserId == course.UserID)
+                                    {
+                                       @*  <span class="text-success">Owner</span> *@
+                                    }
+                                    else if (Model.EnrolledCourses.Contains(course.CourseID))
+                                    {
+                                        <button disabled class="btn-blue">Enrolled</button>
+                                    }
+                                    else
+                                    {
+                                        @if (!User.Identity.IsAuthenticated)
+                                        {
+                                            <button class="btn-green buy-now" data-course-id="@course.CourseID" onclick="event.stopPropagation();">
+                                                Buy Now
+                                            </button>
+                                        }
+                                        else if (Model.UserPoints < course.Price)
+                                        {
+                                            <button class="btn-green buy-now" data-course-id="@course.CourseID" onclick="event.stopPropagation();">
+                                                Buy Now
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn-green buy-now" data-course-id="@course.CourseID" onclick="event.stopPropagation();">
+                                                Buy Now
+                                            </button>
+                                        }
+                                    }
+
+
+                                    @* Check if the current user is the owner *@
+                                    @if (User.Identity.IsAuthenticated && course.UserID == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                    {
+                                        <div class="mt-2">
+                                            <i class="fas fa-user-tie me-3"></i>
+                                            <button type="button" class="btn-sm btn-edit me-2 edit-course-btn"
+                                                    data-course-id="@course.CourseID"
+                                                    data-course-title="@course.Title"
+                                                    data-course-description="@course.Description"
+                                                    data-course-price="@course.Price"
+                                                    data-course-image="@course.CourseImage"
+                                                    data-course-semester="@course.Semester"
+                                                    data-course-category-id="@course.CategoryID"
+                                                    data-document-name="@course.Document?.Name"
+                                                    data-document-url="@course.Document?.FileUrl"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#editCourseModal"
+                                                    onclick="event.stopPropagation();">
+                                                Edit
+                                            </button>
+                                            <button type="button" class="btn-sm btn-del delete-course-btn"
+                                                    data-course-id="@course.CourseID"
+                                                    data-course-title="@course.Title"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteCourseModal"
+                                                    onclick="event.stopPropagation();">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="modal fade" id="buyNowModal" tabindex="-1" aria-labelledby="buyNowModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm Purchase</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to purchase this course for <span id="coursePrice"></span> points?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                        <form id="formEnrollForm" method="post" action="@Url.Action("BuyCourse", "Course")">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="courseId" id="formEnrollCourseId" />
+                            <input type="hidden" name="returnUrl" id="returnUrl" value="@Url.Action("BuyCourse", "Course")" />
+                            <button type="submit" class="btn" id="confirmEnrollBtn">Confirm</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="loginPromptModal" tabindex="-1" aria-labelledby="loginPromptModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Login Required</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Please login to enroll in this course.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                        <a href="/Identity/Account/Login" class="btn">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="createCourseModal" tabindex="-1" aria-labelledby="createCourseModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form asp-action="Create" asp-controller="Course" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createCourseModalLabel">Create New Course</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="mb-3">
+                                <label asp-for="CreateCourseVM.Title" class="form-label">Title</label>
+                                <input asp-for="CreateCourseVM.Title" class="form-control" required />
+                                <span asp-validation-for="CreateCourseVM.Title" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="CreateCourseVM.Description" class="form-label">Description</label>
+                                <textarea asp-for="CreateCourseVM.Description" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="CreateCourseVM.Description" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="CreateCourseVM.Price" class="form-label">Price (points)</label>
+                                <input asp-for="CreateCourseVM.Price" type="number" class="form-control" required />
+                                <span asp-validation-for="CreateCourseVM.Price" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="CreateCourseVM.Semester" class="form-label">Semester</label>
+                                <select asp-for="CreateCourseVM.Semester" class="form-control">
+                                    <option value="">-- Select Semester --</option>
+                                    @for (int i = 1; i <= 9; i++)
+                                    {
+                                        <option value="@i">Semester @i</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="CreateCourseVM.Semester" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="CreateCourseVM.CategoryID" class="form-label">Category</label>
+                                <select asp-for="CreateCourseVM.CategoryID" class="form-control">
+                                    <option value="">-- Select Category --</option>
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <option value="@category.CategoryID">@category.CategoryName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="CreateCourseVM.CategoryID" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="CreateCourseVM.CourseImageFile" class="form-label">Course Image</label>
+                                <input asp-for="CreateCourseVM.CourseImageFile" type="file" class="form-control" />
+                                <span asp-validation-for="CreateCourseVM.CourseImageFile" class="text-danger"></span>
+                                <small class="form-text text-muted">Upload an image for the course (optional).</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="CreateCourseVM.DocumentFile" class="form-label">Upload Document</label>
+                                <input asp-for="CreateCourseVM.DocumentFile" type="file" class="form-control" />
+                                <span asp-validation-for="CreateCourseVM.DocumentFile" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn">Create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="editCourseModal" tabindex="-1" aria-labelledby="editCourseModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form asp-action="Edit" asp-controller="Course" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" id="editCourseId" value="@Model.EditCourseVM.CourseID" />
+                        <input type="hidden" name="EditCourseVM.CourseID" value="@Model.EditCourseVM.CourseID" />
+                        <input type="hidden" asp-for="EditCourseVM.CourseImage" />
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editCourseModalLabel">Edit Course</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="mb-3 text-center">
+                                <label class="form-label">Current Course Image</label>
+                                <br />
+                                <img src="@Model.EditCourseVM.CourseImage" alt="Current Course Image" class="img-fluid mb-3" style="max-height: 200px;" id="currentCourseImage" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="EditCourseVM.Title" class="form-label">Title</label>
+                                <input asp-for="EditCourseVM.Title" class="form-control" required />
+                                <span asp-validation-for="EditCourseVM.Title" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="EditCourseVM.Description" class="form-label">Description</label>
+                                <textarea asp-for="EditCourseVM.Description" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="EditCourseVM.Description" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="EditCourseVM.Price" class="form-label">Price (points)</label>
+                                <input asp-for="EditCourseVM.Price" type="number" class="form-control" required />
+                                <span asp-validation-for="EditCourseVM.Price" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="EditCourseVM.Semester" class="form-label">Semester</label>
+                                <select asp-for="EditCourseVM.Semester" name="EditCourseVM.Semester" class="form-control">
+                                    <option value="">-- Select Semester --</option>
+                                    @for (int i = 1; i <= 9; i++)
+                                    {
+                                        <option value="@i">Semester @i</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="EditCourseVM.Semester" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="EditCourseVM.CategoryID" class="form-label">Category</label>
+                                <select asp-for="EditCourseVM.CategoryID" name="EditCourseVM.CategoryID" class="form-control">
+                                    <option value="">-- Select Category --</option>
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <option value="@category.CategoryID">@category.CategoryName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="EditCourseVM.CategoryID" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="EditCourseVM.CourseImageFile" class="form-label">Change Course Image</label>
+                                <input asp-for="EditCourseVM.CourseImageFile" type="file" class="form-control" />
+                                <span asp-validation-for="EditCourseVM.CourseImageFile" class="text-danger"></span>
+                                <small class="form-text text-muted">Leave empty to keep the current image.</small>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="EditCourseVM.DocumentFile" class="form-label">Upload Document</label>
+                                <input asp-for="EditCourseVM.DocumentFile" type="file" class="form-control" />
+                                <span asp-validation-for="EditCourseVM.DocumentFile" class="text-danger"></span>
+                                <div id="currentDocument">
+                                    @if (Model.EditCourseVM.Document != null)
+                                    {
+                                        <p>Current Document: <a href="@Model.EditCourseVM.Document.FileUrl" download>@Model.EditCourseVM.Document.Name</a></p>
+                                    }
+                                    else
+                                    {
+                                        <p>No document uploaded.</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteCourseModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form asp-action="DeleteCourse" asp-controller="Course" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" name="courseId" id="deleteCourseId" />
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteCourseModalLabel">Confirm Deletion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete the course "<strong id="deleteCourseTitle"></strong>"? This action cannot be undone.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn-red">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="notEnoughPointsModal" tabindex="-1" aria-labelledby="notEnoughPointsModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Insufficient Points</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        You do not have enough points to purchase this course.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                        <a href="/payment/pay" class="btn">Payment</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const buyNowButtons = document.querySelectorAll(".buy-now");
+
+            buyNowButtons.forEach(function (button) {
+                button.addEventListener("click", function (event) {
+                    const courseId = this.getAttribute("data-course-id");
+                    const courseCard = this.closest('.course-card');
+                    const coursePriceElement = courseCard.querySelector('.new-price');
+                    const coursePrice = parseInt(coursePriceElement ? coursePriceElement.textContent : '0', 10);
+                    const userPoints = parseInt('@Model.UserPoints', 10);
+                    const isAuthenticated = '@User.Identity.IsAuthenticated' === 'True';
+
+                    if (!isAuthenticated) {
+                        const loginPromptModal = new bootstrap.Modal(document.getElementById('loginPromptModal'));
+                        loginPromptModal.show();
+                    } else if (userPoints < coursePrice) {
+                        const notEnoughModal = new bootstrap.Modal(document.getElementById('notEnoughPointsModal'));
+                        notEnoughModal.show();
+                    } else {
+                        const buyNowModal = new bootstrap.Modal(document.getElementById('buyNowModal'));
+                        document.getElementById("formEnrollCourseId").value = courseId;
+                        document.getElementById("coursePrice").textContent = coursePrice;
+                        document.getElementById("returnUrl").value = window.location.pathname;
+                        buyNowModal.show();
+                    }
+
+                    event.preventDefault(); // Prevent any default action
+                });
+            });
+
+            const editCourseModal = document.getElementById('editCourseModal');
+
+            editCourseModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const courseId = button.getAttribute('data-course-id');
+                const title = button.getAttribute('data-course-title');
+                const description = button.getAttribute('data-course-description');
+                const price = button.getAttribute('data-course-price');
+                const courseImage = button.getAttribute('data-course-image');
+                const semester = button.getAttribute('data-course-semester');
+                const categoryId = button.getAttribute('data-course-category-id');
+                const documentName = button.getAttribute('data-document-name');
+                const documentUrl = button.getAttribute('data-document-url');
+
+                editCourseModal.querySelector("input[name='id']").value = courseId;
+                editCourseModal.querySelector("input[name='EditCourseVM.CourseID']").value = courseId;
+                editCourseModal.querySelector("input[name='EditCourseVM.Title']").value = title;
+                editCourseModal.querySelector("textarea[name='EditCourseVM.Description']").value = description;
+                editCourseModal.querySelector("input[name='EditCourseVM.Price']").value = price;
+                editCourseModal.querySelector("select[name='EditCourseVM.Semester']").value = semester;
+                editCourseModal.querySelector("select[name='EditCourseVM.CategoryID']").value = categoryId;
+
+                const currentImage = editCourseModal.querySelector("#currentCourseImage");
+                if (currentImage) {
+                    currentImage.src = courseImage;
+                }
+
+                editCourseModal.querySelector("input[name='EditCourseVM.CourseImage']").value = courseImage;
+
+                const documentElement = editCourseModal.querySelector("#currentDocument");
+                if (documentElement) {
+                    if (documentName && documentUrl) {
+                        documentElement.innerHTML = `<p>Current Document: <a href="${documentUrl}" download>${documentName}</a></p>`;
+                    } else {
+                        documentElement.innerHTML = '<p>No document uploaded.</p>';
+                    }
+                }
+            });
+
+            editCourseModal.addEventListener('hidden.bs.modal', function () {
+                const currentImage = editCourseModal.querySelector("#currentCourseImage");
+                if (currentImage) {
+                    currentImage.src = '';
+                }
+            });
+
+
+            const deleteCourseModal = document.getElementById('deleteCourseModal');
+
+            deleteCourseModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+
+                const courseId = button.getAttribute('data-course-id');
+                const courseTitle = button.getAttribute('data-course-title');
+
+                const modalTitle = deleteCourseModal.querySelector('#deleteCourseModalLabel');
+                const modalBodyTitle = deleteCourseModal.querySelector('#deleteCourseTitle');
+                const deleteCourseIdInput = deleteCourseModal.querySelector('#deleteCourseId');
+
+                modalTitle.textContent = 'Confirm Deletion';
+                modalBodyTitle.textContent = courseTitle;
+                deleteCourseIdInput.value = courseId;
+            });
+
+            deleteCourseModal.addEventListener('hidden.bs.modal', function () {
+                const modalBodyTitle = deleteCourseModal.querySelector('#deleteCourseTitle');
+                const deleteCourseIdInput = deleteCourseModal.querySelector('#deleteCourseId');
+
+                modalBodyTitle.textContent = '';
+                deleteCourseIdInput.value = '';
+            });
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const showCreateModal = @Model.ShowCreateCourseModal.ToString().ToLower();
+            const showEditModal = @Model.ShowEditCourseModal.ToString().ToLower();
+            const editCourseID = @Model.EditCourseID?.ToString() ?? "null";
+
+            if (showCreateModal) {
+                const createCourseModal = new bootstrap.Modal(document.getElementById('createCourseModal'));
+                createCourseModal.show();
+            }
+
+            if (showEditModal && editCourseID !== "null") {
+                const editCourseModal = new bootstrap.Modal(document.getElementById('editCourseModal'));
+                editCourseModal.show();
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const deleteCourseModal = document.getElementById('deleteCourseModal');
+
+            deleteCourseModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+
+                const courseId = button.getAttribute('data-course-id');
+                const courseTitle = button.getAttribute('data-course-title');
+
+                const modalTitle = deleteCourseModal.querySelector('#deleteCourseModalLabel');
+                const modalBodyTitle = deleteCourseModal.querySelector('#deleteCourseTitle');
+                const deleteCourseIdInput = deleteCourseModal.querySelector('#deleteCourseId');
+
+                modalTitle.textContent = 'Confirm Deletion';
+                modalBodyTitle.textContent = courseTitle;
+                deleteCourseIdInput.value = courseId;
+            });
+
+            deleteCourseModal.addEventListener('hidden.bs.modal', function () {
+                const modalBodyTitle = deleteCourseModal.querySelector('#deleteCourseTitle');
+                const deleteCourseIdInput = deleteCourseModal.querySelector('#deleteCourseId');
+
+                modalBodyTitle.textContent = '';
+                deleteCourseIdInput.value = '';
+            });
+        });
+    </script>
+
+    @* Include Validation Scripts *@
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+</body>

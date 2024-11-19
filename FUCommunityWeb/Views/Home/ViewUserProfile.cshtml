@@ -1,0 +1,323 @@
+﻿@using System.Security.Claims
+@model FuCommunityWebModels.ViewModels.UserVM
+
+<body>
+    <!-- Profile Section -->
+    <div class="container view-profile">
+        <button onclick="window.history.back()" class="btn-blue">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <!-- Cover Image -->
+        <div class="profile-cover">
+            @if (!string.IsNullOrEmpty(Model.User.BannerImage))
+            {
+                <img src="@Model.User.BannerImage" alt="Cover Image">
+            }
+            else
+            {
+                <img src="/img/Register-image.png" alt="Cover Image">
+            }
+        </div>
+
+        <!-- Profile Info -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start mt-4 profile-info">
+            <div class="profile-details d-flex align-items-start gap-3">
+                <div class="position-relative">
+                    <a href="@Url.Action("ViewUserProfile", "Home", new { userId = Model.User.Id })">
+                        <img src="@(Model.User.AvatarImage ?? "/img/avt2.jpg")" alt="Profile Picture" class="profile-avatar me-3">
+                    </a>
+                    @if (Model.PrimaryRole == "Admin" || Model.PrimaryRole == "Mentor")
+                    {
+                        <div class="verification-badge">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    }
+                </div>
+                <div>
+                    <p class="user-profile-link">
+                        <h1 class="mb-0" style="font-weight: bold; word-break: break-all;">@Model.User.FullName</h1>
+                    </p>
+
+                    <p class="text-muted">@Model.User.Bio</p>
+                    @if (!Model.IsCurrentUser)
+                    {
+                        <form method="post" asp-action="ToggleFollow" asp-controller="Home">
+                            <input type="hidden" name="followId" value="@Model.User.Id" />
+                            <button type="submit" style="font-size: 15px;" class="btn btn-sm follow-btn@(Model.IsFollowing ? "btn-danger" : "btn-primary")">
+                                @(Model.IsFollowing ? "Unfollow" : "Follow")
+                            </button>
+                        </form>
+                    }
+                </div>
+            </div>
+            <!-- Profile Stats -->
+            <div class="profile-stats d-flex flex-wrap gap-3 mt-3 mt-md-0">
+                <div>
+                    <h5>Posts</h5>
+                    <p>@Model.TotalPosts.ToString("N0")</p>
+                </div>
+                <div>
+                    <h5>Questions</h5>
+                    <p>@Model.TotalQuestions.ToString("N0")</p>
+                </div>
+                <div>
+                    <h5>Points</h5>
+                    <p>@Model.User.Point</p>
+                </div>
+                <div>
+                    <h5>Followers</h5>
+                    <p>@(Model.Followers?.Count ?? 0)</p>
+                </div>
+                @if (Model.User.Id != User.FindFirstValue(ClaimTypes.NameIdentifier))
+                    {
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                    
+                            <a class="btn-blue" style="text-decoration:none;" href="@Url.Action("Index", "Chat", new { userId = Model.User.Id })">
+                                <i class="fas fa-comment"></i> Chat
+                            </a>
+                    
+                    </div>
+                    }
+            </div>
+        </div>
+
+        <!-- Bio and Details -->
+        <ul class="nav nav-tabs mt-5" id="profileTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="introduction-tab" data-bs-toggle="tab" data-bs-target="#introduction"
+                        type="button" role="tab" aria-controls="introduction" aria-selected="true">
+                    Introduction
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="all-post-tab" data-bs-toggle="tab" data-bs-target="#all-post" type="button"
+                        role="tab" aria-controls="all-post" aria-selected="false">
+                    All Post/Question
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="all-course-tab" data-bs-toggle="tab" data-bs-target="#all-course" type="button"
+                        role="tab" aria-controls="all-course" aria-selected="false">
+                    All Courses
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="follower-tab" data-bs-toggle="tab" data-bs-target="#follower" type="button"
+                        role="tab" aria-controls="follower" aria-selected="false">
+                    Follower
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content mt-3 min-vh-100" id="profileTabsContent">
+            <div class="tab-pane fade show active" id="introduction" role="tabpanel" aria-labelledby="introduction-tab">
+                <div class="bio-box">
+                    <p><strong>Address:</strong> @Model.User.Address</p>
+                    <p><strong>Description:</strong> @Model.User.Description</p>
+                    
+                    <!-- Thêm phần social media -->
+                    <div class="social-links mt-3">
+                        @if (!string.IsNullOrEmpty(Model.User.Facebook))
+                        {
+                            <a href="@Model.User.Facebook" target="_blank" class="me-3 text-primary">
+                                <i class="fab fa-facebook fa-2x"></i>
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.User.Instagram))
+                        {
+                            <a href="@Model.User.Instagram" target="_blank" class="me-3 text-danger">
+                                <i class="fab fa-instagram fa-2x"></i>
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.User.Github))
+                        {
+                            <a href="@Model.User.Github" target="_blank" class="me-3 text-dark">
+                                <i class="fab fa-github fa-2x"></i>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="all-post" role="tabpanel" aria-labelledby="all-post-tab">
+                @if (Model.Post != null && Model.Post.Count > 0)
+                {
+                    foreach (var post in Model.Post.Where(p => p.Status == PostStatus.Approved.ToString()).OrderByDescending(p => p.CreatedDate))
+                    {
+                        <div class="card mb-3" onclick="window.location='@Url.Action("PostDetail", "Forum", new { postId = post.PostID })';" style="cursor: pointer;">
+                            <a style="text-decoration:none; display:none;" class="stretched-link">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <h2 class="card-title mb-1" style="font-style:italic; font-weight:bold;">
+                                                <a style="text-decoration:none;color:#20B486; word-break:break-all;" href="/Forum/PostDetail?postId=@post.PostID">@post.Title</a>
+                                            </h2>
+                                            <p class="card-text text-muted mb-0">
+                                                Comments: <span>@(post.Comments?.Count ?? 0)</span> & Votes: <span>@(post.IsVotes?.Count ?? 0)</span>
+                                            </p>
+                                            <small class="text-muted">@((post.User?.FullName ?? "Unknown User") + " - " + post.CreatedDate?.ToString("dd/MM/yyyy"))</small>
+                                        </div>
+                                        <img class="user-avatar ms-3" style="width:80px;height:80px;border-radius:50%;" src="@(post.User?.AvatarImage ?? "/img/avt2.jpg")" alt="User Avatar" />
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-center">No posts found.</div>
+                }
+            </div>
+
+
+            <div class="tab-pane fade" id="all-course" role="tabpanel" aria-labelledby="all-course-tab">
+                @if (Model.Enrollments != null && Model.Enrollments.Any())
+                {
+                    @foreach (var enrollment in Model.Enrollments)
+                    {
+                        @if (enrollment.Course != null)
+                        {
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title-1">
+                                        <a href="@Url.Action("Detail", "Course", new { id = enrollment.Course.CourseID })">@enrollment.Course.Title</a>
+                                    </h5>
+                                    <p class="card-text">@enrollment.Course.Description</p>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title-1">Course Not Found</h5>
+                                    <p class="card-text">The course associated with this enrollment was not found.</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+                else
+                {
+                    <div class="text-center">No Course Found.</div>
+                }
+            </div>
+
+            <div class="tab-pane fade" id="follower" role="tabpanel" aria-labelledby="follower-tab">
+                @if (Model.Followers != null && Model.Followers.Count > 0)
+                {
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                        @foreach (var follower in Model.Followers)
+                        {
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <a href="@Url.Action("ViewUserProfile", "Home", new { userId = follower.Id })">
+                                                <img src="@(follower.AvatarImage ?? "/img/avt2.jpg")" alt="Avatar @follower.FullName" class="follower-avatar">
+                                            </a>
+                                            <div class="follower-info">
+                                                <a style="text-decoration: none;" href="@Url.Action("ViewUserProfile", "Home", new { userId = follower.Id })">
+                                                    <h5 class="card-title-1" style="word-wrap: break-word; white-space: normal;">@follower.FullName</h5>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-center">No followers.</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- Chat Modal -->
+    <div class="modal fade" id="chatModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chatUserName"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Messages will be loaded here -->
+                    </div>
+                    <div class="chat-input mt-3">
+                        <div class="input-group">
+                            <input type="text" id="messageInput" class="form-control" placeholder="Nhập tin nhắn...">
+                            <button class="btn btn-primary" id="sendMessage">Gửi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+        <script>
+            let connection = new signalR.HubConnectionBuilder()
+                .withUrl("/chatHub")
+                .build();
+
+            let currentChatUserId = '';
+
+            async function openChat(userId, userName) {
+                currentChatUserId = userId;
+                $('#chatUserName').text(userName);
+                $('#chatModal').modal('show');
+
+                // Load previous messages
+                const response = await fetch(`/Chat/GetMessages?userId=${userId}`);
+                const messages = await response.json();
+                displayMessages(messages);
+            }
+
+            function displayMessages(messages) {
+                const chatMessages = $('#chatMessages');
+                chatMessages.empty();
+                
+                messages.forEach(msg => {
+                    const isOwn = msg.senderId === '@User.FindFirstValue(ClaimTypes.NameIdentifier)';
+                    const messageHtml = `
+                        <div class="message ${isOwn ? 'own' : 'other'}">
+                            <img src="${msg.senderAvatar}" class="avatar">
+                            <div class="message-content">
+                                <div class="message-text">${msg.content}</div>
+                                <div class="message-time">${new Date(msg.createdDate).toLocaleString()}</div>
+                            </div>
+                        </div>
+                    `;
+                    chatMessages.append(messageHtml);
+                });
+                
+                chatMessages.scrollTop(chatMessages[0].scrollHeight);
+            }
+
+            $('#sendMessage').click(async () => {
+                const message = $('#messageInput').val();
+                if (message && currentChatUserId) {
+                    await connection.invoke("SendMessage", currentChatUserId, message);
+                    $('#messageInput').val('');
+                }
+            });
+
+            connection.on("ReceiveMessage", message => {
+                if ($('#chatModal').is(':visible') && 
+                    message.senderId === currentChatUserId) {
+                    displayMessages([message]);
+                }
+            });
+
+            connection.start();
+        </script>
+    }
+</body>

@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using FuCommunityWebModels.Models
+@inject UserManager<IdentityUser> UserManager
+@inject FuCommunityWebServices.Services.UserService UserService
+
+@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Views/Shared/_Layout.cshtml";
+    }
+
+    var userId = UserManager.GetUserId(User);
+    var user = UserService.GetUserByIdAsync(userId).Result;
+}
+
+<div class="container-fluid mt-4 profile">
+    <h1 class="title text-start">AUTHENTICATOR</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-3">
+            <div class="sidebar">
+                <div class="avatar-container position-relative">
+                    <img src="@(user.AvatarImage ?? "/img/avt2.jpg")" class="avatar mb-3 rounded-circle" alt="Avatar">
+                </div>
+                <h4 class="username mb-1" style="word-break:break-all;">@user.FullName</h4>
+                <p class="points">Points of week: <span>@user.Point</span></p>
+                <ul class="list-group">
+                    <partial name="_ManageNav"/>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

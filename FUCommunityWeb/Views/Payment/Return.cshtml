@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Payment results";
+}
+<style>
+    .container {
+        max-width: 700px;
+    }
+
+    .header h3 {
+        color: #343a40; /* Dark gray */
+    }
+
+    .table-responsive {
+        background-color: #f8f9fa; /* Light gray background */
+    }
+
+    .custom-card {
+        border-color: #007bff; /* Primary color border */
+        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); /* Subtle blue shadow */
+    }
+
+    .table-responsive p {
+        margin-bottom: 10px;
+    }
+
+        .table-responsive p span {
+            font-weight: bold;
+        }
+
+    .footer {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .lead {
+        color: #007bff; /* Primary color */
+        font-weight: bold;
+    }
+
+</style>
+<div class="container my-4 min-vh-100">
+    <button onclick="window.location='@Url.Action("Index", "Home")';" style="cursor: pointer;" class="btn-blue mb-3">
+        <i class="fas fa-arrow-left"></i> Back to Homepage
+    </button>
+    <div class="table-responsive p-4 border rounded bg-white shadow-sm custom-card">
+        <p class="lead text-primary">@ViewBag.Message</p>
+        @if (ViewBag.TerminalID != null)
+        {
+            <p>Website Code (Terminal ID): @ViewBag.TerminalID</p>
+        }
+        @if (ViewBag.OrderId != null)
+        {
+            <p>Payment transaction code: @ViewBag.OrderId</p>
+        }
+        @if (ViewBag.VnpayTranNo != null)
+        {
+            <p>Transaction code at VNPAY: @ViewBag.VnpayTranNo</p>
+        }
+        @if (ViewBag.Amount != null)
+        {
+            <p>Payment amount (VND): @ViewBag.Amount</p>
+        }
+        @if (ViewBag.BankCode != null)
+        {
+            <p>Payment Bank: @ViewBag.BankCode</p>
+        }
+    </div>
+</div>
+<script src="~/js/bootstrap.min.js"></script>

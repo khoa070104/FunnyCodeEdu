@@ -1,0 +1,71 @@
+﻿@model UserVM
+
+<body>
+    <div class="container-fluid mt-4 profile">
+        <h1 class="title text-start">PROFILE</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                @Html.Partial("Sidebar", Model)
+            </div>
+            <div class="col-md-9 posthis">
+                <div class="card mb-4">
+                    <div class="card-header">Your Posts</div>
+                    <ul class="list-group list-group-flush">
+                        @if (Model.Post != null && Model.Post.Count > 0)
+                        {
+                            foreach (var post in Model.Post)
+                            {
+                                <a href="@Url.Action("PostDetail", "Forum", new { postId = post.PostID })" class="text-decoration-none">
+                                <li class="list-group-item d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            
+                                                <div class="post-title" style="font-weight:bold;word-break:break-all;">@post.Title</div>
+                                                <div class="text-muted">
+                                                    Comments <span>@(post.Comments?.Count ?? 0)</span> &
+                                                    Votes <span>@(post.Votes?.Count ?? 0)</span>
+                                                </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="text-end me-3">
+                                                @(post.User?.FullName ?? "Unknown User")<br>
+                                                @post.CreatedDate?.ToString("dd/MM/yyyy")
+                                        </div>
+                                        <img class="user-avatar" src="@post.User?.AvatarImage" alt="User Avatar" />
+                                    </div>
+                                </li>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <li class="list-group-item">No posts found.</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .post-title {
+            color: #333;
+            font-weight: 500;
+        }
+
+            .post-title:hover {
+                color: #007bff;
+            }
+
+        .list-group-item:hover {
+            background-color: #f8f9fa;
+            transition: background-color 0.2s ease;
+        }
+
+        .text-decoration-none:hover {
+            text-decoration: none !important;
+        }
+    </style>
+</body>

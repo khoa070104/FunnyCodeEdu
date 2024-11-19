@@ -1,0 +1,31 @@
+﻿@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Log out";
+}
+
+<div class="logout-page min-vh-100" style="display: flex; justify-content: space-between; align-items: center; padding: 20px;">
+    <div style="flex: 1; display: flex; justify-content: center; align-items: center;">
+        <img src="/img/cry-icon1.gif" alt="cry-icon" style="max-width: 100%; height: auto;">
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <header style="text-align: center;">
+            <h1>@ViewData["Title"]</h1>
+            <p style="color: #ff0000; font-size: 18px;">Are you really leaving us? :(</p> 
+            @{
+                if (User.Identity?.IsAuthenticated ?? false)
+                {
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                        <button type="submit" class="btn-1" style="margin-bottom: 20px;">Click here to Logout</button>
+                    </form>
+                }
+                else
+                {
+                    <p>You have successfully logged out of the application.</p>
+                }
+            }
+            <a href="javascript:history.back()" class="btn-1" style="text-decoration: none;">Back</a>
+        </header>
+    </div>
+</div>

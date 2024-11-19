@@ -1,0 +1,143 @@
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.deps.json
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.GeneratedMSBuildEditorConfig.editorconfig
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfoInputs.cache
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfo.cs
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.CoreCompileInputs.cache
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.sourcelink.json
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\refint\FuCommunityWebUtility.dll
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\ref\FuCommunityWebUtility.dll
+D:\Documents\PRN212\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.AssemblyReference.cache
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.deps.json
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.AssemblyReference.cache
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.GeneratedMSBuildEditorConfig.editorconfig
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfoInputs.cache
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfo.cs
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.CoreCompileInputs.cache
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.sourcelink.json
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\refint\FuCommunityWebUtility.dll
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\FuWeb\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\ref\FuCommunityWebUtility.dll
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.deps.json
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.AssemblyReference.cache
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.GeneratedMSBuildEditorConfig.editorconfig
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfoInputs.cache
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfo.cs
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.CoreCompileInputs.cache
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.sourcelink.json
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\refint\FuCommunityWebUtility.dll
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\FuWebNew\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\ref\FuCommunityWebUtility.dll
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.deps.json
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.AssemblyReference.cache
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.GeneratedMSBuildEditorConfig.editorconfig
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfoInputs.cache
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfo.cs
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.CoreCompileInputs.cache
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.sourcelink.json
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\refint\FuCommunityWebUtility.dll
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Semester 5\C#\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\ref\FuCommunityWebUtility.dll
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.deps.json
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.AssemblyReference.cache
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.GeneratedMSBuildEditorConfig.editorconfig
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfoInputs.cache
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfo.cs
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.CoreCompileInputs.cache
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.sourcelink.json
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\refint\FuCommunityWebUtility.dll
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\FuTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\ref\FuCommunityWebUtility.dll
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.deps.json
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.dll
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.pdb
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.AssemblyReference.cache
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfoInputs.cache
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfo.cs
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.CoreCompileInputs.cache
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.sourcelink.json
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.dll
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\refint\FuCommunityWebUtility.dll
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.pdb
+C:\Users\hahuy\Desktop\Task Tong\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\ref\FuCommunityWebUtility.dll
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.deps.json
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.AssemblyReference.cache
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.GeneratedMSBuildEditorConfig.editorconfig
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfoInputs.cache
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfo.cs
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.CoreCompileInputs.cache
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.sourcelink.json
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\refint\FuCommunityWebUtility.dll
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\FuWebTest2\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\ref\FuCommunityWebUtility.dll
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.deps.json
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.dll
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.pdb
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.AssemblyReference.cache
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.GeneratedMSBuildEditorConfig.editorconfig
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfoInputs.cache
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfo.cs
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.CoreCompileInputs.cache
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.sourcelink.json
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.dll
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\refint\FuCommunityWebUtility.dll
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.pdb
+E:\FuWebTest\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\ref\FuCommunityWebUtility.dll
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.deps.json
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.AssemblyReference.cache
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.GeneratedMSBuildEditorConfig.editorconfig
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfoInputs.cache
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfo.cs
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.CoreCompileInputs.cache
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.sourcelink.json
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\refint\FuCommunityWebUtility.dll
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\FuComunityVersionManager\FuWebTest4\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\ref\FuCommunityWebUtility.dll
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.deps.json
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.dll
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.AssemblyReference.cache
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.GeneratedMSBuildEditorConfig.editorconfig
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfoInputs.cache
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfo.cs
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.CoreCompileInputs.cache
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.sourcelink.json
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.dll
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\refint\FuCommunityWebUtility.dll
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\UNIVERSITY\Sem5\SWP391\1_version_1.0\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\ref\FuCommunityWebUtility.dll
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.deps.json
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\bin\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.AssemblyReference.cache
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.GeneratedMSBuildEditorConfig.editorconfig
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfoInputs.cache
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.AssemblyInfo.cs
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.csproj.CoreCompileInputs.cache
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.sourcelink.json
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.dll
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\refint\FuCommunityWebUtility.dll
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\FuCommunityWebUtility.pdb
+D:\Documents\FuComunityVersionManager\FuWebTest11\FuCommunityWebApplication\FUCommunityWeb\FuCommunityWebUtility\obj\Debug\net8.0\ref\FuCommunityWebUtility.dll

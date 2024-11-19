@@ -1,0 +1,90 @@
+﻿     <!--div class="container-fluid mt-4 profile">
+         <h1 class="title text-start">PROFILE</h1> 
+         <div class="row justify-content-center">
+           
+             <div class="col-md-3">
+                 <div class="sidebar">
+                     <img src="/img/avt2.jpg" class="avatar mb-3 rounded-circle" alt="Avatar">
+                   
+                     <h4 class="username mb-1">Nguyen Van A</h4> 
+                     <p class="points">Points of week: <span>100</span></p>
+                   
+                     <div class="d-flex mb-3">
+                         <button class="btn btn-changeavt">Change Avatar</button>
+                         <button class="btn btn-editprofile">Edit Profile</button>
+                     </div>
+                     <ul class="list-group">
+                         <li class="list-group-item"><i class="fa fa-cog"></i> Setting</li>
+                         <li class="list-group-item"><i class="fa fa-comment-dots"></i> Message</li>
+                         <li class="list-group-item"><i class="fa fa-pencil-alt"></i> Post</li>
+                         <li class="list-group-item"><i class="fa fa-book"></i> Course History</li>
+                     </ul>
+                 </div>
+             </div>
+          
+             <div class="col-md-9">
+                 <div class="my-profile">
+                     <h2 class="text-center custom-my-profile mb-4">Edit Profile</h2>
+                     <form class="profile-form" method="post" asp-controller="Profile" asp-action="Index">
+                         <div class="row mb-3">
+                             <div class="col-sm-6">
+                                 <div class="form-group">
+                                     <label asp-for="FullName" class="form-label">Full Name</label>
+                                     <input asp-for="FullName" class="form-control" placeholder="Enter your full name" />
+                                 </div>
+                             </div>
+                             <div class="col-sm-6">
+                                 <div class="form-group">
+                                     <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                                     <input asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number" />
+                                 </div>
+                             </div>
+                         </div>
+                        
+                         <div class="row mb-3">
+                             <div class="col-sm-6">
+                                 <div class="form-group">
+                                     <label asp-for="Bio" class="form-label">Bio</label>
+                                     <textarea asp-for="Bio" class="form-control" rows="3" placeholder="Enter your bio"></textarea>
+                                 </div>
+                             </div>
+                             <div class="col-sm-6">
+                                 <div class="form-group">
+                                     <label asp-for="Address" class="form-label">Address</label>
+                                     <input asp-for="Address" class="form-control" placeholder="Enter your address" />
+                                 </div>
+                             </div>
+                         </div>
+                        
+                         <div class="row mb-3">
+                             <div class="col-sm-6">
+                                 <div class="form-group">
+                                     <label asp-for="Gender" class="form-label">Gender</label>
+                                     <select asp-for="Gender" class="form-control">
+                                         <option value="M">Male</option>
+                                         <option value="F">Female</option>
+                                         <option value="O">Other</option>
+                                     </select>
+                                 </div>
+                             </div>
+                             <div class="col-sm-6">
+                                 <div class="form-group">
+                                     <label asp-for="DOB" class="form-label">Date of Birth</label>
+                                     <input asp-for="DOB" class="form-control" type="date" />
+                                 </div>
+                             </div>
+                         </div>
+                        
+                         <div class="form-group mb-3">
+                             <label asp-for="Description" class="form-label">Description</label>
+                             <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter your description"></textarea>
+                         </div>
+                        
+                         <div>
+                             <button id="update-profile-button" type="submit" class="btn-savechange">Save</button>
+                         </div>
+                     </form>
+                 </div>
+             </div>
+         </div>
+     </!--div--> 

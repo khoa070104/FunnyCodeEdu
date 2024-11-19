@@ -1,0 +1,67 @@
+﻿<body> 
+    <div class="sign-in">
+        <div class="container d-flex">
+            <div class="row w-100">
+                <div class="col-md-8 d-none d-md-block"></div>
+                <div class="col-md-4">
+                    <div class="login-container p-4">
+                        <h2 class="text-white">Sign In</h2>
+                        <p class="text-white">Welcome to FUNNYCODE!</p>
+                        <form>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" placeholder="Enter your username" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                            </div>
+                            <div class="form-check mb-3 text-white">
+                                <input type="checkbox" class="form-check-input" id="showPassword"> Show Password
+                                <a href="#" class="float-end forgot-text" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
+                            </div>
+                            <button type="submit" class="btn btn-signin w-100">SIGN IN</button>
+                        </form>
+                        <hr class="text-white">
+                        <p class="text-center text-white">Or continue with</p>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-outline-light btn-google w-48">
+                                <i class="fab fa-google"></i>
+                                Google
+                            </button>
+                            <button class="btn btn-outline-light btn-facebook w-48">
+                                <i class="fab fa-facebook"></i>
+                                Facebook
+                            </button>
+                        </div>
+                        <p class="text-center text-white mt-3 custom-link">
+                            By registering you agree with our <a href="#">Terms and Conditions</a>
+                        </p>
+                        <p class="text-center text-white">
+                            Don't have an account? <a href="#" class="register-link fw-bold">Register Here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Reset Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Enter your email address</label>
+                            <input type="email" class="form-control" id="email" placeholder="Email" required>
+                        </div>
+                        <button type="submit" class="btn w-100">Send Reset Link</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body> 

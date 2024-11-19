@@ -1,0 +1,73 @@
+﻿<body>
+    <div class="container-fluid mt-4 profile">
+        <h1 class="title text-start">PROFILE</h1> <!-- Align profile title to the left -->
+        <div class="row justify-content-center">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <div class="sidebar">
+                    <img src="/img/avt2.jpg" class="avatar mb-3 rounded-circle" alt="Avatar"> <!-- Replace with image, round it -->
+                    <h4 class="username mb-1">Nguyen Van A</h4> <!-- Smaller username -->
+                    <p class="points">Points of week: <span>100</span></p> <!-- Smaller points text, closer to username -->
+                    <div class="d-flex mb-3">
+                        <button class="btn btn-changeavt">Change Avatar</button>
+                        <button class="btn btn-editprofile">Edit Profile</button>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><i class="fa fa-cog"></i> Setting</li>
+                        <li class="list-group-item"><i class="fa fa-comment-dots"></i> Message</li>
+                        <li class="list-group-item"><i class="fa fa-pencil-alt"></i> Post</li>
+                        <li class="list-group-item"><i class="fa fa-book"></i> Course History</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Course History Section -->
+            <div class="col-md-9">
+                <div class="course-history">
+                    <h2 class="text-center custom-header mb-4">Course History</h2>
+                    <div class="table-responsive">
+                        <table class="custom-table table-hover">
+                            <thead class="custom-table-header">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Enrolled Date</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Point</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="custom-row-bg">
+                                    <td class="table-name">PRF192</td>
+                                    <td>22/04/2024</td>
+                                    <td>Completed</td>
+                                    <td><span class="custom-badge">400</span></td>
+                                    <th scope="col">
+                                        <i class="fa fa-arrow-right"></i>
+                                    </th>
+                                </tr>
+                                <tr class="custom-row-bg">
+                                    <td class="table-name">PRO192</td>
+                                    <td>13/05/2024</td>
+                                    <td>In Progress</td>
+                                    <td><span class="custom-badge">400</span></td>
+                                    <th scope="col">
+                                        <i class="fa fa-arrow-right"></i>
+                                    </th>
+                                </tr>
+                                <tr class="custom-row-bg">
+                                    <td class="table-name">PRN212</td>
+                                    <td>12/09/2024</td>
+                                    <td>Not Start</td>
+                                    <td><span class="custom-badge">400</span></td>
+                                    <th scope="col">
+                                        <i class="fa fa-arrow-right"></i>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

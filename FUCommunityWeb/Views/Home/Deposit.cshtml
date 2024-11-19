@@ -1,0 +1,73 @@
+﻿<body>
+    <div class="deposit">
+        <!-- Breadcrumb Navigation -->
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="#">Deposit</a></li>
+            <li class="active">Top Up</li>
+        </ol>
+
+        <div class="container my-5">
+            <h1 class="text-center">Top Up Wallet</h1>
+            <p class="text-center">1,000 VND = 1 point</p>
+
+            <div class="card mx-auto" style="max-width: 500px;">
+                <div class="card-body">
+                    <h3 class="card-title">Select Amount to Top Up</h3>
+                    <form id="deposit-form">
+                        <div class="form-group mb-3">
+                            <label for="preset-amount">Choose an amount:</label>
+                            <select class="form-select" id="preset-amount" onchange="updateCustomAmount(this.value)">
+                                <option value="50000">50,000 VND</option>
+                                <option value="100000">100,000 VND</option>
+                                <option value="200000">200,000 VND</option>
+                                <option value="500000">500,000 VND</option>
+                                <option value="custom">Enter custom amount</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3" id="custom-amount-group" style="display: none;">
+                            <label for="custom-amount">Enter amount (VND):</label>
+                            <input type="number" class="form-control" id="custom-amount"
+                                   placeholder="Enter amount to top up" oninput="updatePoints()">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="payment-method">Choose payment method:</label>
+                            <select class="form-select" id="payment-method">
+                                <option value="zalopay">ZaloPay</option>
+                                <option value="momo">MoMo</option>
+                                <option value="bank">Bank</option>
+                            </select>
+                        </div>
+                        <div class="total mb-3">
+                            <strong>Points to receive: </strong><span id="points">50</span> points
+                        </div>
+                        <button type="button" class="btn w-100" onclick="confirmDeposit()">Confirm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmation-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm Payment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Amount: </strong><span id="confirm-amount"></span> VND</p>
+                        <p><strong>Payment Method: </strong><span id="confirm-payment-method"></span></p>
+                        <p><strong>Points to receive: </strong><span id="confirm-points"></span></p>
+                        <div class="qr-code text-center">
+                            <img src="/src/webapp/img/qr-code.png" alt="QR Code" style="width: 200px;">
+                            <p>Scan the code to pay</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal">Complete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

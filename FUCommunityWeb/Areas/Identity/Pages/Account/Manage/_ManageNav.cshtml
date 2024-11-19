@@ -1,0 +1,46 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<ul class="list-group">
+    <li class="list-group-item d-flex align-items-center" style="cursor: pointer;">
+        <a class=" @ManageNavPages.IndexNavClass(ViewContext) w-100 text-decoration-none text-dark d-flex align-items-center" id="profile" asp-page="./Index">
+            <i class="fa fa-phone me-2"></i>
+            Contact
+        </a>
+    </li>
+    <li class="list-group-item d-flex align-items-center" style="cursor: pointer;">
+        <a class=" @ManageNavPages.EmailNavClass(ViewContext) w-100 text-decoration-none text-dark d-flex align-items-center" id="email" asp-page="./Email">
+            <i class="fa fa-envelope me-2"></i>
+            Email
+        </a>
+    </li>
+    <li class="list-group-item d-flex align-items-center" style="cursor: pointer;">
+        <a class=" @ManageNavPages.ChangePasswordNavClass(ViewContext) w-100 text-decoration-none text-dark d-flex align-items-center" id="change-password" asp-page="./ChangePassword">
+            <i class="fa fa-lock me-2"></i>
+            Password
+        </a>
+    </li>
+    @if (hasExternalLogins)
+
+    {
+        <li id="external-logins" class="list-group-item d-flex align-items-center" style="cursor: pointer;">
+            <a class=" @ManageNavPages.ExternalLoginsNavClass(ViewContext) w-100 text-decoration-none text-dark d-flex align-items-center" id="external-login" asp-page="./ExternalLogins">
+                <i class="fa fa-external-link-alt me-2"></i>
+                External logins
+            </a>
+        </li>
+    }
+    <li class="list-group-item d-flex align-items-center" style="cursor: pointer;">
+        <a class=" @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext) w-100 text-decoration-none text-dark d-flex align-items-center" id="two-factor" asp-page="./TwoFactorAuthentication">
+            <i class="fa fa-shield-alt me-2"></i>
+            Two-factor authentication
+        </a>
+    </li>
+    <li class="list-group-item d-flex align-items-center" style="cursor: pointer;">
+        <a class=" @ManageNavPages.PersonalDataNavClass(ViewContext) w-100 text-decoration-none text-dark d-flex align-items-center" id="personal-data" asp-page="./PersonalData">
+            <i class="fa fa-id-card me-2"></i>
+            Personal data
+        </a>
+    </li>
+</ul>

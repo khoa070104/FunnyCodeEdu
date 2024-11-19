@@ -1,0 +1,188 @@
+﻿@model List<FuCommunityWebModels.Models.Post>
+
+<style>
+    .post a {
+        text-decoration: none; /* Remove underline from links */
+        color: inherit; /* Inherit color from the parent element */
+    }
+
+        .post a:hover {
+            color: inherit; /* Keep color on hover */
+        }
+
+    .pagination {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .pagination .page-button {
+            margin: 0 5px;
+            padding: 10px 15px;
+            border: 1px solid #007bff; /* Màu viền */
+            border-radius: 5px;
+            background-color: #fff; /* Màu nền của nút */
+            color: #007bff; /* Màu chữ của nút */
+            cursor: pointer;
+        }
+
+            .pagination .page-button:hover {
+                background-color: #007bff; /* Thay đổi màu nền khi hover */
+                color: white; /* Thay đổi màu chữ khi hover */
+            }
+
+            .pagination .page-button:disabled,
+            .pagination .page-button.active {
+                background-color: #e9ecef; /* Màu nền cho nút hiện tại/vô hiệu hóa */
+                color: #6c757d; /* Màu chữ cho nút hiện tại/vô hiệu hóa */
+                border: 1px solid #dee2e6; /* Màu viền cho nút vô hiệu hóa */
+                cursor: not-allowed; /* Thay đổi con trỏ khi hover trên nút vô hiệu hóa */
+            }
+</style>
+
+<div class="container post">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="#">Forum</a></li>
+            <li class="active">Data Structure</li>
+        </ol>
+    </nav>
+
+    <!-- Topic Title -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-6" style="font-weight: 500;">Topic: <span class="text-success">Data Structure</span></h1>
+        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#createPostModal">
+            Create new post
+        </button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <input type="text" id="searchString" placeholder="Enter search keyword..."
+                   style="width: 300px; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 15px;" />
+
+            <button class="btn" id="searchButton">Search</button>
+        </div>
+    </div>
+    <div id="postList"></div> <!-- Show postlist -->
+    <div id="pagination" class="pagination"></div><!-- Show paging -->
+</div>
+<!-- Modal -->
+<div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createPostModalLabel">New Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="postTitle" class="form-label">Post Title</label>
+                        <input type="text" class="form-control" id="postTitle" placeholder="Enter post title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="postContent" class="form-label">Content</label>
+                        <textarea class="form-control" id="postContent" rows="3" placeholder="What's on your mind?"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let allPosts = []; /
+
+    $(document).ready(function () {
+        // Call API
+        function loadPosts(page = 1, pageSize = 5) {
+            $.ajax({
+                url: "/Home/GetPosts",
+                type: "GET",
+                data: { page: page, pageSize: pageSize }, 
+                success: function (response) {
+                    allPosts = response.posts;
+                    displayPosts(allPosts);
+                    buildPagination(response.totalItems, pageSize, page);
+                },
+                error: function (error) {
+                    console.log("Error fetching posts:", error);
+                }
+            });
+        }
+        function displayPosts(posts) {
+            $("#postList").empty();
+
+            let tableContent = `
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Tags</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+
+            $.each(posts, function (index, post) {
+                tableContent += `
+                    <tr>
+                        <td><a href="${post.postImage}">${post.title}</a></td>
+                        <td>${post.content}</td>
+                        <td>
+                            <span class="badge bg-secondary">${post.status}</span>
+                        </td>
+                        <td class="text-muted">${post.status}</td>
+                    </tr>
+                `;
+            });
+
+            tableContent += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            $("#postList").append(tableContent);
+        }
+
+        function buildPagination(totalItems, pageSize, currentPage) {
+            $("#pagination").empty();
+            for (let i = 1; i <= Math.ceil(totalItems / pageSize); i++) {
+                if (i === currentPage) {
+                    $("#pagination").append(`<button class="page-button" data-page="${i}" disabled>${i}</button>`);
+                } else {
+                    $("#pagination").append(`<button class="page-button" data-page="${i}">${i}</button>`);
+                }
+            }
+        }
+
+        $("#searchString").on("input", function () {
+            var searchString = $(this).val().toLowerCase(); 
+            var filteredPosts = allPosts.filter(post => post.content.toLowerCase().includes(searchString));
+            displayPosts(filteredPosts); 
+
+        $(document).on("click", ".page-button", function () {
+            var page = $(this).data("page");
+            loadPosts(page); 
+        });
+
+        loadPosts();
+    });
+
+</script>
+
+
+

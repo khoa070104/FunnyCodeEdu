@@ -1,0 +1,392 @@
+﻿@model HomeVM
+@{
+    var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+}
+<style>
+    .course-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%; /* Đảm bảo chiều cao đầy đủ */
+    }
+
+        .course-card .course-info {
+            flex-grow: 1; /* Chiếm không gian còn lại để đẩy card-footer xuống dưới */
+        }
+
+        .course-card .card-footer {
+            margin-top: auto;
+            background: white;
+        }
+
+</style>
+<body>
+    <div class="home-container">
+        <!-- Hero Section -->
+        <div class="container hero-section">
+            <div class="text-section">
+                <h1>
+                    The Faster Way To <span class="highlight">Develop</span> And <span class="highlight">Improve</span>
+                    Your Skills.
+                </h1>
+                <p>
+                    Explore advanced strategies to optimize learning, enhance skills, and achieve rapid career success.
+                </p>
+                <button class="btn-1 custom-button" onclick="location.href='/Course/Index';">Explore Courses</button>
+            </div>
+            <div class="image-section">
+                <img src="/img/welcome1.gif" alt="Welcome" class="rounded-circle">
+            </div>
+        </div>
+
+        <!-- Most Enrolled Courses Section -->
+        <div class="course-section">
+            <h2 class="title">The most <span class="highlight">enrolled</span> courses</h2>
+            <p>Let's join our famous class, the knowledge provided will definitely be useful for you.</p>
+            <div class="courses">
+                <div class="row">
+                    @foreach (var course in Model.MostPurchasedCourses)
+                    {
+                        <div class="col-md-4 mb-4">
+                            <div class="course-card" onclick="window.location='@Url.Action("Detail", "Course", new { id = course.CourseID })';" style="cursor: pointer;" data-course-id="@course.CourseID">
+                                <div class="category">
+                                    <span class="badge">@course.Category.CategoryName</span>
+                                </div>
+                                <div class="course-image">
+                                    <a href="@Url.Action("Detail", "Course", new { id = course.CourseID })">
+                                        <img style="width:200px;height:200px;" src="@course.CourseImage" alt="Course Image" class="img-fluid">
+                                    </a>
+                                </div>
+                                <div class="course-info">
+                                    <h2 class="text-center">
+                                        <a style="font-style:italic; font-weight:bold; color:#20B486; word-break:break-all; text-decoration:none;" href="@Url.Action("Detail", "Course", new { id = course.CourseID })">@course.Title</a>
+                                    </h2>
+                                    <p>@course.Description</p>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="rating text-center">
+                                        <span>@(Model.AverageRatings.ContainsKey(course.CourseID) ? Model.AverageRatings[course.CourseID].ToString("0.0") : "0.0")</span>
+                                        <span class="stars">
+                                            @for (int i = 0; i < 5; i++)
+                                            {
+                                                if (i < (Model.AverageRatings.ContainsKey(course.CourseID) ? (int)Math.Round(Model.AverageRatings[course.CourseID]) : 0))
+                                                {
+                                                    <i class="fas fa-star" style="color: gold;"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="fa-regular fa-star"></i>
+                                                }
+                                            }
+                                        </span>
+                                        <span>(@(Model.ReviewCounts.ContainsKey(course.CourseID) ? Model.ReviewCounts[course.CourseID] : 0))</span>
+                                    </div>
+                                    <div class="price text-center mb-3">
+                                        <div>
+                                            @* <span class="old-price">500 points</span> *@
+                                            <span class="new-price fw-bold">@course.Price points</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        @if (currentUserId == course.UserID)
+                                        {
+                                            <button class="btn-edit">Owner</button>
+                                        }
+                                        else if (Model.EnrolledCourses.Contains(course.CourseID))
+                                        {
+                                            <button class="btn-blue">Enrolled</button>
+                                        }
+                                        else
+                                        {
+                                            @if (!User.Identity.IsAuthenticated)
+                                            {
+                                                <button class="btn-green buy-now" data-course-id="@course.CourseID" onclick="event.stopPropagation();">
+                                                    Buy Now
+                                                </button>
+                                            }
+                                            else if (Model.UserPoints < course.Price)
+                                            {
+                                                <button class="btn-green buy-now" data-course-id="@course.CourseID" onclick="event.stopPropagation();">
+                                                    Buy Now
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn-green buy-now" data-course-id="@course.CourseID" onclick="event.stopPropagation();">
+                                                    Buy Now
+                                                </button>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- High-Quality Courses Section -->
+        <div class="course-section">
+            <h2 class="title"><span class="highlight">High-quality</span> courses</h2>
+            <p>To enhance your skills and knowledge.</p>
+            <div class="courses">
+                <div class="row">
+                    @foreach (var course in Model.HighestQualityCourse)
+                    {
+                        <div class="col-md-4 mb-4">
+                            <div class="course-card" onclick="window.location='@Url.Action("Detail", "Course", new { id = course.CourseID })';" style="cursor: pointer;" data-course-id="@course.CourseID">
+                                <div class="category">
+                                    <span class="badge">@course.Category.CategoryName</span>
+                                </div>
+                                <div class="course-image">
+                                    <a href="@Url.Action("Detail", "Course", new { id = course.CourseID })">
+                                        <img style="width:200px;height:200px;" src="@course.CourseImage" alt="Course Image" class="img-fluid">
+                                    </a>
+                                </div>
+                                <div class="course-info">
+                                    <h2 class="text-center">
+                                        <a style="font-style:italic; font-weight:bold; color:#20B486; word-break:break-all; text-decoration:none;" href="@Url.Action("Detail", "Course", new { id = course.CourseID })">@course.Title</a>
+                                    </h2>
+                                    <p>@course.Description</p>
+
+                                </div>
+                                <div class="card-footer">
+                                    <div class="rating text-center">
+                                        <span>@(Model.AverageRatings.ContainsKey(course.CourseID) ? Model.AverageRatings[course.CourseID].ToString("0.0") : "0.0")</span>
+                                        <span class="stars">
+                                            @for (int i = 0; i < 5; i++)
+                                            {
+                                                if (i < (Model.AverageRatings.ContainsKey(course.CourseID) ? (int)Math.Round(Model.AverageRatings[course.CourseID]) : 0))
+                                                {
+                                                    <i class="fas fa-star" style="color: gold;"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="fa-regular fa-star"></i>
+                                                }
+                                            }
+                                        </span>
+                                        <span>(@(Model.ReviewCounts.ContainsKey(course.CourseID) ? Model.ReviewCounts[course.CourseID] : 0))</span>
+                                    </div>
+                                    <div class="price text-center mb-3">
+                                        <div>
+                                            @* <span class="old-price">500 points</span> *@
+                                            <span class="new-price fw-bold">@course.Price points</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        @if (currentUserId == course.UserID)
+                                        {
+                                            <button class="btn-edit">Owner</button>
+                                        }
+                                        else if (Model.EnrolledCourses.Contains(course.CourseID))
+                                        {
+                                            <button class="btn-blue">Enrolled</button>
+                                        }
+                                        else
+                                        {
+                                            @if (!User.Identity.IsAuthenticated)
+                                            {
+                                                <button class="btn-green buy-now" data-course-id="@course.CourseID">
+                                                    Buy Now
+                                                </button>
+                                            }
+                                            else if (Model.UserPoints < course.Price)
+                                            {
+                                                <button class="btn-green buy-now" data-course-id="@course.CourseID">
+                                                    Buy Now
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn-green buy-now" data-course-id="@course.CourseID">
+                                                    Buy Now
+                                                </button>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Section -->
+        <div class="home-feedback">
+            <div class="container my-5">
+                <div class="text-center">
+                    <p class="section-title">Our Feedbacks</p>
+                    <h2>
+                        Courses were fantastic! It is a master platform for those looking to start a new career or need a
+                        refresher.
+                    </h2>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-4">
+                        <div class="card testimonial-card p-3">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="/img/avt1.png" class="avtar-user rounded-circle" alt="User Image">
+                                <div class="ms-3">
+                                    <p class="testimonial-name">Wade Warren</p>
+                                </div>
+                            </div>
+                            <p class="testimonial-text">
+                                The website is very intuitive, making it easy to find and enroll
+                                in courses. The clean design enhances the overall learning experience.
+                            </p>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card testimonial-card p-3">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="/img/avt2.jpg" class="avtar-user rounded-circle" alt="User Image">
+                                <div class="ms-3">
+                                    <p class="testimonial-name">Alan Walker</p>
+                                </div>
+                            </div>
+                            <p class="testimonial-text">
+                                Courses are good, but adding student reviews after completion
+                                would give a clearer view. A Q&A or forum within courses would be useful.
+                            </p>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card testimonial-card p-3">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="/img/avt3.jpg" class="avtar-user rounded-circle" alt="User Image">
+                                <div class="ms-3">
+                                    <p class="testimonial-name">Ariana Grande</p>
+                                </div>
+                            </div>
+                            <p class="testimonial-text">
+                                The courses offered are well-structured and comprehensive,
+                                providing great value for learners at all levels.
+                            </p>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Buy Now Confirmation -->
+        <div class="modal fade" id="buyNowModal" tabindex="-1" aria-labelledby="buyNowModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm Purchase</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to purchase this course for <span id="coursePrice"></span> points?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                        <form id="enrollForm" method="post" action="@Url.Action("BuyCourse", "Home")">
+                            @Html.AntiForgeryToken() <!-- Anti-Forgery Token Added -->
+                            <input type="hidden" name="courseId" id="formEnrollCourseId" />
+                            <input type="hidden" name="returnUrl" id="returnUrl" />
+                            <button type="submit" class="btn" id="confirmEnrollBtn">Confirm</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Login Prompt -->
+        <div class="modal fade" id="loginPromptModal" tabindex="-1" aria-labelledby="loginPromptModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Login requirement</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Please login to register for this course.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <a href="/Identity/Account/Login" class="btn btn-primary">Sign In</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for not enough points -->
+        <div class="modal fade" id="notEnoughPointsModal" tabindex="-1" aria-labelledby="notEnoughPointsModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Insufficient Points</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        You do not have enough points to purchase this course.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                        <a href="/payment/pay" class="btn">Payment</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const buyNowButtons = document.querySelectorAll(".buy-now");
+
+            buyNowButtons.forEach(function (button) {
+                button.addEventListener("click", function (event) {
+                    const courseId = this.getAttribute("data-course-id");
+                    const courseCard = this.closest('.course-card');
+                    const coursePriceElement = courseCard.querySelector('.new-price');
+                    const coursePrice = parseInt(coursePriceElement ? coursePriceElement.textContent : '0', 10);
+                    const userPoints = parseInt('@Model.UserPoints', 10);
+                    const isAuthenticated = '@User.Identity.IsAuthenticated' === 'True';
+
+                    if (!isAuthenticated) {
+                        const loginPromptModal = new bootstrap.Modal(document.getElementById('loginPromptModal'));
+                        loginPromptModal.show();
+                    } else if (userPoints < coursePrice) {
+                        const notEnoughModal = new bootstrap.Modal(document.getElementById('notEnoughPointsModal'));
+                        notEnoughModal.show();
+                    } else {
+                        const buyNowModal = new bootstrap.Modal(document.getElementById('buyNowModal'));
+                        document.getElementById("formEnrollCourseId").value = courseId;
+                        document.getElementById("coursePrice").textContent = coursePrice;
+                        document.getElementById("returnUrl").value = window.location.pathname;
+                        buyNowModal.show();
+                    }
+
+                    event.preventDefault();
+                });
+            });
+        });
+    </script>
+
+</body>

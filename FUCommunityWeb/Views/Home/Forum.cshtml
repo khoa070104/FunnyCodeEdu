@@ -1,0 +1,60 @@
+﻿@model ForumVM
+
+<body>
+    <div class="container forum">
+        <h1 class="forum-title">FORUM</h1>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        General
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var post in Model.Posts ?? new List<Post>()) 
+                        {
+                            <li class="list-group-item d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <div class="forum-icon me-3"></div>
+                                    <div>
+                                        <div>@post.Title</div>
+                                        <div class="text-muted">
+                                            Comments <span>@(post.Comments?.Count ?? 0)</span>
+                                            & Votes <span>@(post.Votes?.Count ?? 0)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="text-end me-3">
+                                        @(post.User?.FullName ?? "Unknown User")<br>
+                                        @post.CreatedDate?.ToString("dd/MM/yyyy")
+                                    </div>
+                                    <img class="user-avatar" src="@post.User?.AvatarImage" alt="Alternate Text" />
+                                </div>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="news-card-header p-2">
+                        News
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var post in Model.Posts.OrderByDescending(c => c.CreatedDate).Take(5))
+                        {
+                            <li class="list-group-item d-flex align-items-center card-ul">
+                                <img src="@post.PostImage" class="news-img me-3" alt="News">
+                                <div>
+                                    <div>@post.Title</div>
+                                    <div class="text-muted">@post.Content<br>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

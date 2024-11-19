@@ -1,0 +1,66 @@
+﻿@model MentorVM
+
+<div class="award-container">
+    <h1>Mentor Recognition <span>Hall</span></h1>
+    <h3>Top 3 Outstanding Mentors</h3>
+    <div class="row">
+        @if (Model.TopMentors.Count > 1)
+        {
+            <!-- Top 2 -->
+            <div class="col-md-3">
+                <div class="mentor-card">
+                    <img src="@Model.TopMentors[1].AvatarImage" style="width:200px;height:200px;" alt="Top 2">
+                    <div class="card-body">
+                        <h5 class="card-title" style="word-break:break-all;">@Model.TopMentors[1].FullName</h5>
+                        <p class="card-text">Point: @Model.TopMentors[1].Point</p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (Model.TopMentors.Count > 0)
+        {
+            <!-- Top 1 -->
+            <div class="col-md-3">
+                <div class="mentor-card higher top-1">
+                    <img src="@Model.TopMentors[0].AvatarImage" style="width:200px;height:200px;" alt="Top 1">
+                    <div class="card-body">
+                        <h5 class="card-title" style="word-break:break-all;">@Model.TopMentors[0].FullName</h5>
+                        <p class="card-text">Point: @Model.TopMentors[0].Point</p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (Model.TopMentors.Count > 2)
+        {
+            <!-- Top 3 -->
+            <div class="col-md-3">
+                <div class="mentor-card">
+                    <img src="@Model.TopMentors[2].AvatarImage" style="width:200px;height:200px;" alt="Top 3">
+                    <div class="card-body">
+                        <h5 class="card-title" style="word-break:break-all;">@Model.TopMentors[2].FullName</h5>
+                        <p class="card-text">Point: @Model.TopMentors[2].Point</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Phần Other Outstanding Mentors -->
+    <h3>Other Outstanding Mentors</h3>
+    <div class="row">
+        @foreach (var mentor in Model.OtherMentors)
+        {
+            <div class="col-md-3">
+                <div class="mentor-card">
+                    <img src="@mentor.AvatarImage" style="width:200px;height:200px;" alt="Other Mentor">
+                    <div class="card-body">
+                        <h5 class="card-title" style="word-break:break-all;">@mentor.FullName</h5>
+                        <p class="card-text">Point: @mentor.Point</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

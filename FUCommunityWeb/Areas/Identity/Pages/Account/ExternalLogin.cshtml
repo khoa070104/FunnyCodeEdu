@@ -1,0 +1,58 @@
+﻿@page
+@model ExternalLoginModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="external-email">
+    <h1>@ViewData["Title"]</h1>
+    <h2 id="external-login-title">Associate your @Model.ProviderDisplayName account.</h2>
+    <hr />
+
+    <p id="external-login-description" class="text-info">
+        You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
+        Please enter an email address for this site below and click the Register button to finish
+        logging in.
+    </p>
+
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="Please enter your email." readonly />
+                    <label asp-for="Input.Email" class="form-label"></label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.FullName" class="form-control" autocomplete="email" placeholder="Please enter your full name." />
+                    <label asp-for="Input.FullName" class="form-label"></label>
+                    <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.DOB" class="form-control" autocomplete="email" 
+                           placeholder="Please enter your date of birth."
+                           max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    <label asp-for="Input.DOB" class="form-label"></label>
+                    <span asp-validation-for="Input.DOB" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <div class="form-floating mb-3">
+                        <select asp-for="Input.Gender" class="form-control">
+                            <option disabled selected>Choose your gender</option>
+                            <option value="Male" style="color:black">Male</option>
+                            <option value="Female" style="color:black">Female</option>
+                        </select>
+                        <label asp-for="Input.Gender" class="form-label" style="font-size: 12px;"></label>
+                        <span asp-validation-for="Input.Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <button type="submit" class="w-100 btn-1">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

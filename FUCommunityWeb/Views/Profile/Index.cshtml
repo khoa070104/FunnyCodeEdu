@@ -1,0 +1,275 @@
+﻿@model UserVM
+
+<style>
+    .view-profile .profile-cover {
+        height: 200px;
+        border-radius: 0.5rem;
+        background-color: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+    }
+
+        .view-profile .profile-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+</style>
+
+<div class="container-fluid mt-4 profile">
+    <h1 class="title text-start">PROFILE</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-3">
+            @Html.Partial("Sidebar", Model)
+        </div>
+        <div class="col-md-9">
+            <div class="my-profile">
+                <h2 class="text-center custom-my-profile mb-4">My Profile</h2>
+                <form class="profile-form" method="post">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th for="fullName" scope="row">Full Name:</th>
+                                <td>
+                                    <input asp-for="User.FullName" class="form-control" id="fullName" readonly />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th for="username" scope="row">Username:</th>
+                                <td>
+                                    <input asp-for="User.UserName" class="form-control" id="username" readonly />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th for="bio" scope="row">Bio:</th>
+                                <td>
+                                    <input asp-for="User.Bio" class="form-control" id="bio" readonly />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th for="address" scope="row">Address:</th>
+                                <td>
+                                    <input asp-for="User.Address" class="form-control" id="address" readonly />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th for="gender" scope="row">Gender:</th>
+                                <td>
+                                    <select asp-for="User.Gender" class="form-control" id="gender" disabled>
+                                        <option value="M" selected="@Model.User.Gender.Equals('M')">Male</option>
+                                        <option value="F" selected="@Model.User.Gender.Equals('F')">Female</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th for="dob" scope="row">Date of Birth:</th>
+                                <td>
+                                    <input asp-for="@Model.User.DOB" type="date" class="form-control" id="dob"  readonly />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th for="phone" scope="row">Phone Number:</th>
+                                <td>
+                                    <div style="position: relative;">
+                                        <input asp-for="User.PhoneNumber" class="form-control" id="phone" readonly style="padding-right: 40px;" />
+                                        @if (!string.IsNullOrEmpty(Model.User.PhoneNumber))
+                                        {
+                                            <a target="_blank" href="https://zalo.me/@(Model.User.PhoneNumber)"
+                                               style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+                                  background: transparent; border: none; cursor: pointer;">
+                                                <i class="fa fa-external-link" style="font-size: 20px; color: green;"></i>
+                                            </a>
+                                        }
+                                    </div>
+                                    <span class="text-custom-light" style="font-weight: 500; font-style: italic;">
+                                        Want to update Phone Number?
+                                        <a href="/Identity/Account/Manage" style="text-decoration: none; color: green;">
+                                            <i class="fa-regular fa-hand-point-right"></i> Click here
+                                        </a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th for="description" scope="row">Description:</th>
+                                <td>
+                                    <textarea asp-for="User.Description" class="form-control" id="description" readonly></textarea>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Social Media:</th>
+                                <td>
+                                    <div class="social-links">
+                                        @if (!string.IsNullOrEmpty(Model.User.Instagram))
+                                        {
+                                            <a style="text-decoration:none" href="@Model.User.Instagram" target="_blank" class="me-2">
+                                                <i class="fab fa-instagram" style="font-size: 20px; color: #E1306C;"></i>
+                                            </a>
+                                        }
+                                        @if (!string.IsNullOrEmpty(Model.User.Facebook))
+                                        {
+                                            <a style="text-decoration:none" href="@Model.User.Facebook" target="_blank" class="me-2">
+                                                <i class="fab fa-facebook" style="font-size: 20px; color: #4267B2;"></i>
+                                            </a>
+                                        }
+                                        @if (!string.IsNullOrEmpty(Model.User.Github))
+                                        {
+                                            <a style="text-decoration:none" href="@Model.User.Github" target="_blank">
+                                                <i class="fab fa-github" style="font-size: 20px; color: #333;"></i>
+                                            </a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" class="text-center">
+                                    <a href="#" class="btn-2" data-bs-toggle="modal" data-bs-target="#editProfileModal"
+                                       style="text-decoration: none; padding: 10px 20px; display: inline-block;">
+                                        Edit Profile
+                                    </a>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <div>
+                    <div class="view-profile">
+                        <div class="profile-cover">
+                            <img src="@(Model.User.BannerImage ?? "/img/Register-image.png")" alt="Banner Image" class="img-fluid mb-2" />
+                        </div>
+                    </div>
+                    <form asp-action="ChangeBanner" method="post" enctype="multipart/form-data" id="bannerForm">
+                        <input type="hidden" name="currentPage" value="@ViewData["CurrentPage"]" />
+                        <div class="form-group text-end">
+                            <input type="file" name="file" id="bannerfile" accept="image/*" style="display: none;" onchange="uploadBanner()" />
+                            <button type="button" style="margin-top:15px;font-size: 10px;" class="btn-2" onclick="document.getElementById('bannerfile').click();">Upload Banner Image</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Edit Your Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="edit-profile-form" id="editProfileForm">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label for="fullNameEdit" class="form-label">Full Name</label>
+                        <input asp-for="User.FullName" class="form-control" id="fullNameEdit" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="bioEdit" class="form-label">Bio</label>
+                        <input asp-for="User.Bio" class="form-control" id="bioEdit" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="addressEdit" class="form-label">Address</label>
+                        <input asp-for="User.Address" class="form-control" id="addressEdit" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="genderEdit" class="form-label">Gender</label>
+                        <select asp-for="User.Gender" class="form-control" id="genderEdit">
+                            <option value="M" selected="@Model.User.Gender.Equals('M')">Male</option>
+                            <option value="F" selected="@Model.User.Gender.Equals('F')">Female</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dobEdit" class="form-label">Date of Birth</label>
+                        <input asp-for="User.DOB" type="date" class="form-control" id="dobEdit" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="descriptionEdit" class="form-label">Description</label>
+                        <textarea asp-for="User.Description" class="form-control" id="descriptionEdit"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="usernameEdit" class="form-label">Username</label>
+                        <input asp-for="User.UserName" class="form-control" id="usernameEdit" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Social Media Links</label>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text"><i class="fab fa-instagram"></i></span>
+                            <input asp-for="User.Instagram" class="form-control" id="instagramEdit" placeholder="Instagram profile URL" />
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text"><i class="fab fa-facebook"></i></span>
+                            <input asp-for="User.Facebook" class="form-control" id="facebookEdit" placeholder="Facebook profile URL" />
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text"><i class="fab fa-github"></i></span>
+                            <input asp-for="User.Github" class="form-control" id="githubEdit" placeholder="Github profile URL" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function uploadBanner() {
+        var fileInput = document.getElementById('bannerfile');
+        if (fileInput.files.length > 0) {
+            document.getElementById('bannerForm').submit();
+        }
+    }
+</script>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#editProfileForm").on("submit", function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '@Url.Action("EditProfile", "Profile")',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred while processing your request.");
+                    }
+                });
+            });
+        });
+    </script>
+}

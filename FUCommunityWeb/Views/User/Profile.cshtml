@@ -1,0 +1,7 @@
+@using System.Security.Claims
+@if (Model.Id != User.FindFirstValue(ClaimTypes.NameIdentifier))
+{
+    <a href="@Url.Action("Index", "Chat", new { userId = Model.Id })" class="btn btn-primary">
+        <i class="fas fa-comment"></i> Nhắn tin
+    </a>
+} 

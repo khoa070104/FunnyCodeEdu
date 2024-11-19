@@ -1,0 +1,52 @@
+﻿@model List<FuCommunityWebModels.Models.ApplicationUser>
+
+<div class="container mt-4 view-user" style="min-height: 100vh;">
+    <h1 class="text-center mb-4" style="font-weight: bold;color:#20B486;">Search User</h1>
+    <form method="get" asp-action="ViewUser" class="user-search mb-3 d-flex" id="searchForm">
+        <input type="text" id="searchInput" name="searchTerm" class="form-control me-2" placeholder="Enter username to search..." />
+        <button class="input-group-text">
+            <i class="fas fa-search"></i>
+        </button>
+    </form>
+
+    <div class="row user-list" id="userList">
+        @if (string.IsNullOrEmpty(ViewData["searchTerm"]?.ToString()))
+        {
+            <div class="col-12 text-center">
+                <p class="text-muted">Please enter a username to search for users</p>
+            </div>
+        }
+        else if (Model.Count == 0)
+        {
+            <div class="col-12 text-center">
+                <p class="text-danger">No users found with username: '@ViewData["searchTerm"]'</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var user in Model)
+            {
+                <div class="col-md-3 mb-4 user-item">
+                    <a href="@Url.Action("ViewUserProfile", "Home", new { userId = user.Id })" class="card h-100 text-decoration-none rounded-card">
+                        <img src="@(user.AvatarImage ?? "/img/avt2.jpg")" alt="Avatar" class="card-img-top user-avatar" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title user-name">@user.FullName</h5>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<script>
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const searchTerm = this.value.trim();
+        if (searchTerm.length > 0) {
+            document.getElementById('searchForm').submit();
+        } else {
+            // If the search box is empty, reload the page to display the default message
+            window.location.href = '@Url.Action("ViewUser", "Home")';
+        }
+    });
+</script>

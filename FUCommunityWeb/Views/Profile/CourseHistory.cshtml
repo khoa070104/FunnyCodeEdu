@@ -1,0 +1,54 @@
+﻿@model UserVM
+
+<body>
+    <div class="container-fluid mt-4 profile">
+        <h1 class="title text-start">PROFILE</h1>
+        <div class="row justify-content-center">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                @Html.Partial("Sidebar", Model)
+            </div>
+            <!-- Course History Section -->
+            <div class="col-md-9">
+                <div class="coursehis">
+                    <h2 class="text-center custom-header mb-4">Course History</h2>
+                    <div class="table-responsive">
+                        <table class="custom-table table-hover">
+                            <thead class="custom-table-header">
+                                <tr>
+                                    <th scope="col">Course Name</th>
+                                    <th scope="col">Enrollment Date</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Enrollments != null && Model.Enrollments.Any())
+                                {
+                                    @foreach (var enrollment in Model.Enrollments)
+                                    {
+                                        <tr class="custom-row-bg" onclick="window.location='@Url.Action("Detail", "Course", new { id = enrollment.Course.CourseID })';" style="cursor: pointer;">
+                                            <td class="table-name" style="font-weight:bold;word-break:break-all;">
+                                                @enrollment.Course.Title
+                                            </td>
+                                            <td>@enrollment.EnrollmentDate.ToString("dd/MM/yyyy")</td>
+                                            <td>@enrollment.Status</td>
+                                            <td><span class="custom-badge">@enrollment.Course.Price</span></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center">No data.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
